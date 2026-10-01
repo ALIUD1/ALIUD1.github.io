@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Not found · Alex Liu</title>
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+/* Same tokens as the main site (light, then dark via the OS setting). */
+:root{--paper:#F4F0E6;--ink:#16171B;--ink-2:#4B4D57;--rule:#CBC2AE;--signal:#2D5BFF;--grid:rgba(22,23,27,.07);
+  --blip:#FF5B37;--blip-deep:#D9411F;--blip-cheek:#FF9A80;--eye:#FFFFFF;--pupil:#16171B}
+@media (prefers-color-scheme:dark){:root{--paper:#111216;--ink:#EFEAE0;--ink-2:#A9ABB5;--rule:#2E313A;--signal:#7D9BFF;
+  --grid:rgba(239,234,224,.06);--blip:#FF6B47;--blip-deep:#E8532F;--blip-cheek:#FF9F87}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{min-height:100vh;min-height:100svh;display:grid;place-items:center;padding:48px 16px;
+  background:var(--paper) radial-gradient(var(--grid) 1.2px,transparent 1.3px) 0 0/24px 24px;color:var(--ink);
+  font:400 1.0625rem/1.6 "Bricolage Grotesque",system-ui,sans-serif}
+main{max-width:34rem;text-align:center}
+svg{width:96px;height:96px;display:block;margin:0 auto 24px}
+.code{font:400 .75rem/1.45 "JetBrains Mono",ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin:0 0 12px}
+h1{font-size:clamp(2.25rem,7vw,3.75rem);font-weight:760;font-stretch:85%;letter-spacing:-.03em;line-height:.95;margin:0 0 16px}
+p{margin:0 0 24px;color:var(--ink-2)}
+a{color:var(--ink);text-decoration:underline 2px var(--signal);text-underline-offset:4px;display:inline-block;padding:10px 4px}
+a:hover{text-decoration-thickness:3px}
+a:focus-visible{outline:2px solid var(--signal);outline-offset:3px;border-radius:2px}
+</style>
+</head>
+<body>
+<main>
+<!-- Static Blip, looking down at the empty result. -->
+<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+<path d="M8 50C8 24 19 8 32 8C45 8 56 24 56 50C56 56 52 58 32 58C12 58 8 56 8 50Z" style="fill:var(--blip)"/>
+<path d="M12 52C16 57 48 57 52 52C50 56 44 58 32 58C20 58 14 56 12 52Z" style="fill:var(--blip-deep)"/>
+<path d="M17 26C19 18 24 14 29 13" style="fill:none;stroke:var(--paper);stroke-width:3;stroke-linecap:round;opacity:.55"/>
+<g style="fill:var(--blip-cheek);opacity:.45"><ellipse cx="19" cy="42" rx="3.5" ry="2"/><ellipse cx="45" cy="42" rx="3.5" ry="2"/></g>
+<line x1="32" y1="8" x2="32" y2="2" style="stroke:var(--ink);stroke-width:2;stroke-linecap:round"/>
+<circle cx="32" cy="2" r="2.2" style="fill:var(--blip-deep)"/>
+<g style="fill:var(--eye)"><ellipse cx="25" cy="33" rx="5" ry="6"/><ellipse cx="39" cy="33" rx="5" ry="6"/></g>
+<g style="fill:var(--pupil)"><circle cx="25" cy="35" r="2.6"/><circle cx="39" cy="35" r="2.6"/></g>
+</svg>
+<p class="code">404 · not found</p>
+<h1>Blip ran BLPOP and got None.</h1>
+<p>Nothing is waiting at this address. The page may have moved, or the link has a typo.</p>
+<a href="/">Back to the homepage</a>
+</main>
+</body>
+</html>

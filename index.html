@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alex Liu · Michigan CS</title>
+<meta name="description" content="Alex Liu, Computer Science at the University of Michigan. I build the systems around models: training them on a GPU cluster, serving them through a queue, and checking whether my own numbers hold up.">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://aliud1.github.io/">
+<meta property="og:title" content="Alex Liu · Michigan CS">
+<meta property="og:description" content="I build the systems around models: training them on a GPU cluster, serving them through a queue, and checking whether my own numbers hold up.">
+<link rel="canonical" href="https://aliud1.github.io/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<!-- Before first paint: JS on, saved theme, and reduced motion (OS setting or the footer toggle). -->
+<script>(function(d){d.className='js';var m;try{var t=localStorage.theme;if(t==='light'||t==='dark')d.setAttribute('data-theme',t);m=localStorage.motion}catch(e){}if(m==='off'||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))d.className+=' rm'})(document.documentElement)</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=JetBrains+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- Blip sprite. Every symbol: viewBox 0 0 64 64, feet at (32,58). Colors are CSS tokens (with light-theme fallbacks).
+     Stalks use --ink so they read on both papers; --pupil (fixed dark) is only for marks drawn on Blip's own fills. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<symbol id="blip-body" viewBox="0 0 64 64">
+<path d="M8 50C8 24 19 8 32 8C45 8 56 24 56 50C56 56 52 58 32 58C12 58 8 56 8 50Z" style="fill:var(--blip,#FF5B37)"/>
+<path d="M12 52C16 57 48 57 52 52C50 56 44 58 32 58C20 58 14 56 12 52Z" style="fill:var(--blip-deep,#D9411F)"/>
+<path d="M17 26C19 18 24 14 29 13" style="fill:none;stroke:var(--paper,#F4F0E6);stroke-width:3;stroke-linecap:round;opacity:.55"/>
+<g style="fill:var(--blip-cheek,#FF9A80);opacity:.45"><ellipse cx="19" cy="42" rx="3.5" ry="2"/><ellipse cx="45" cy="42" rx="3.5" ry="2"/></g>
+</symbol>
+<symbol id="blip-default" viewBox="0 0 64 64">
+<use href="#blip-body"/>
+<line x1="32" y1="8" x2="32" y2="2" style="stroke:var(--ink,#16171B);stroke-width:2;stroke-linecap:round"/>
+<circle cx="32" cy="2" r="2.2" style="fill:var(--blip-deep,#D9411F)"/>
+</symbol>
+<symbol id="blip-face" viewBox="0 0 64 64">
+<g style="fill:var(--eye,#FFFFFF)"><ellipse cx="25" cy="33" rx="5" ry="6"/><ellipse cx="39" cy="33" rx="5" ry="6"/></g>
+<g style="fill:var(--pupil,#16171B)"><circle cx="25" cy="33" r="2.6"/><circle cx="39" cy="33" r="2.6"/></g>
+</symbol>
+<!-- Costumes: each is the complete look; core layers the face on top (except flat, which has its own X eyes). -->
+<symbol id="blip-ticket" viewBox="0 0 64 64">
+<rect x="2" y="24" width="60" height="30" rx="6" style="fill:var(--blip,#FF5B37)"/>
+<rect x="2" y="44" width="60" height="6" style="fill:var(--eye,#FFFFFF)"/>
+<g style="fill:var(--paper,#F4F0E6)"><circle cx="2" cy="37" r="3"/><circle cx="62" cy="37" r="3"/></g>
+</symbol>
+<symbol id="blip-pill" viewBox="0 0 64 64">
+<rect x="2" y="30" width="60" height="22" rx="11" style="fill:var(--blip,#FF5B37)"/>
+<path d="M12 35H22" style="fill:none;stroke:var(--paper,#F4F0E6);stroke-width:2.5;stroke-linecap:round;opacity:.55"/>
+</symbol>
+<symbol id="blip-eyes" viewBox="0 0 64 64"></symbol>
+<symbol id="blip-ping" viewBox="0 0 64 64" overflow="visible">
+<g style="fill:none;stroke:var(--signal,#2D5BFF);stroke-width:1.5">
+<circle class="ring" cx="32" cy="45" r="22"/><circle class="ring" cx="32" cy="45" r="22" style="animation-delay:.6s"/>
+</g>
+<use href="#blip-default" transform="translate(16 29) scale(.5)"/>
+</symbol>
+<symbol id="blip-antenna" viewBox="0 0 64 64" overflow="visible">
+<use href="#blip-body"/>
+<line x1="32" y1="8" x2="32" y2="-11.2" style="stroke:var(--ink,#16171B);stroke-width:2;stroke-linecap:round"/>
+<circle class="blink" cx="32" cy="-11.2" r="2.6" style="fill:var(--signal,#2D5BFF);animation-duration:.833s"/>
+</symbol>
+<symbol id="blip-headset" viewBox="0 0 64 64">
+<use href="#blip-default"/>
+<g style="fill:none;stroke:var(--ink,#16171B);stroke-linecap:round">
+<path d="M10 36V30C10 15 20 7 32 7S54 15 54 30V36" style="stroke-width:3"/>
+<path d="M55 42C55 48 51 51 45 51" style="stroke-width:2"/>
+</g>
+<g style="fill:var(--ink,#16171B)"><rect x="5" y="29" width="8" height="14" rx="3"/><rect x="51" y="29" width="8" height="14" rx="3"/><circle cx="44" cy="51" r="2.2"/></g>
+</symbol>
+<symbol id="blip-flat" viewBox="0 0 64 64" overflow="visible">
+<ellipse cx="32" cy="55" rx="30" ry="5" style="fill:var(--blip,#FF5B37)"/>
+<path d="M22 50L28 54M28 50L22 54M36 50L42 54M42 50L36 54" style="fill:none;stroke:var(--pupil,#16171B);stroke-width:1.8;stroke-linecap:round"/>
+<g style="fill:var(--ink-2,#4B4D57)">
+<path class="spin" style="animation-duration:1.6s" d="M14 38L15.2 42.8L20 44L15.2 45.2L14 50L12.8 45.2L8 44L12.8 42.8Z"/>
+<path class="spin" style="animation-duration:1.6s" d="M32 32L33.2 36.8L38 38L33.2 39.2L32 44L30.8 39.2L26 38L30.8 36.8Z"/>
+<path class="spin" style="animation-duration:1.6s" d="M50 38L51.2 42.8L56 44L51.2 45.2L50 50L48.8 45.2L44 44L48.8 42.8Z"/>
+</g>
+</symbol>
+<symbol id="blip-legs" viewBox="0 0 64 64">
+<g style="fill:var(--blip-deep,#D9411F)">
+<rect class="b-leg" x="15" y="50" width="4" height="8" rx="1"/><rect class="b-leg b-leg2" x="23" y="50" width="4" height="8" rx="1"/>
+<rect class="b-leg" x="37" y="50" width="4" height="8" rx="1"/><rect class="b-leg b-leg2" x="45" y="50" width="4" height="8" rx="1"/>
+</g>
+<use href="#blip-default" transform="translate(0 -6)"/>
+</symbol>
+<symbol id="blip-hardhat" viewBox="0 0 64 64">
+<use href="#blip-default"/>
+<g style="stroke:var(--ink,#16171B);stroke-linecap:round;stroke-linejoin:round">
+<path d="M12 23A20 15 0 0 1 52 23Z" style="fill:var(--paper,#F4F0E6);stroke-width:2"/>
+<path d="M32 9V23" style="fill:none;stroke-width:1.5"/>
+<path d="M7 23H57" style="fill:none;stroke-width:2.5"/>
+</g>
+</symbol>
+</svg>
+
+<a class="skip" href="#work">Skip to projects</a>
+
+<header class="hero" id="top">
+<nav class="topnav" aria-label="Page"><a href="#work">Work</a> <a href="#experience">Experience</a> <a href="#contact">Contact</a></nav>
+<h1>Alex L<span class="i-anchor">i<svg class="blip-static" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><use href="#blip-default"/><use href="#blip-face"/></svg></span>u</h1>
+<p class="school">Computer Science (B.S.E.) · University of Michigan College of Engineering · Expected&nbsp;May&nbsp;2028<span hidden data-confirm="confirm GPA"> · GPA 3.7/4.0</span></p>
+<p class="lede">I build the systems around models: training them on a GPU cluster, serving them through a queue, and checking whether my own numbers hold up.</p>
+<p class="now">Now: BIM/VDC development intern at Miller Industries · Software engineering researcher in U-M's SOCR lab · Infrastructure team for CLAWS, a NASA SUITS student team</p>
+<ul class="contact-row">
+  <li><a href="https://github.com/ALIUD1">GitHub</a></li>
+  <li><a href="https://www.linkedin.com/in/alex-liu-a77403408">LinkedIn</a></li>
+  <li><a href="mailto:liualex639@gmail.com">liualex639@gmail.com</a></li>
+  <li hidden data-confirm="add a phone-free resume.pdf"><a href="resume.pdf">Résumé (PDF)</a></li>
+</ul>
+<p class="cue" aria-hidden="true">scroll. Blip goes first.</p>
+</header>
+
+<main>
+<section id="work" aria-label="Projects">
+<!-- PROJECTS: one <article class="project"> per project. Page order = order here
+     (rail order and "01 ·" kicker numbers follow automatically).
+     data-scene: queue | denoise | telemetry | killswitch. Leave it off (or misspell it)
+       and the project gets the generic "Blip builds it" scene. Nothing breaks.
+     data-accent: signal | ok | warn | danger (default signal).
+     ol.steps > li = one animation beat each: <p>plain sentence</p><code>spec line</code>.
+       2-9 items. style="--beat:2" makes a beat twice as long.
+       data-label="Shuffle" = short node label (≤16 chars) for the generic scene.
+     Custom scenes expect a fixed beat count: queue 8, denoise 7, telemetry 6, killswitch 5.
+     Anything awaiting confirmation: add  hidden data-confirm="reason". Publish = delete hidden.
+       The reason and the hidden text are still public in view-source: keep reasons generic. -->
+
+<article class="project" id="inference-server" data-scene="queue" data-accent="signal">
+<div class="story"><header>
+<p class="kicker">Personal project · Jun–Sep 2026</p>
+<h2>Inference Server</h2>
+<p class="becomes">Blip becomes a request.</p>
+<p class="tagline">An async image-classification server with a Redis queue and batched workers.</p>
+<p class="summary">A small model-serving system I built from scratch to learn what happens between an HTTP request and a prediction. A FastAPI server accepts each image and hands it to separate worker processes through Redis. The workers group waiting images into batches, run each batch through ResNet-18 in one pass, and send every answer back to the exact request that is waiting for it. I also wrote the load tester that drives it with up to 1,200 concurrent requests.</p>
+</header><div class="figure"></div>
+<ol class="steps">
+<li><p>An image comes in.</p><code>POST / · multipart upload · FastAPI on Uvicorn</code></li>
+<li><p>It gets a 16-byte ticket and parks on an asyncio Future. The event loop keeps serving other requests.</p><code>job_id = uuid4().bytes · pending_jobs[job_id] = Future()</code></li>
+<li><p>The image waits in Redis under its ticket. Only the 16-byte id joins the line.</p><code>SET job_id &lt;image bytes&gt; · RPUSH jobs job_id</code></li>
+<li><p>Worker processes (four in my tests) pull from one FIFO list. The first idle worker opens a batch.</p><code>BLPOP jobs 1 · torch.set_num_threads(1)</code></li>
+<li><p>The batch closes at 8 jobs or after 200 ms, whichever comes first.</p><code>BLPOP jobs 0.05 · BATCH_SIZE = 8 · BATCH_FILL_WAIT_TIME = 0.2</code></li>
+<li><p>One round trip fetches every image, and one more deletes them.</p><code>MGET id1 … id8 · DEL id1 … id8</code></li>
+<li><p>One ResNet-18 forward pass labels the whole batch.</p><code>torch.stack → [8,3,224,224] → no_grad → [8,1000] → argmax</code></li>
+<li><p>Each answer goes home as 24 bytes, and one reader task wakes exactly the right request.</p><code>struct.pack('&lt;16sq') · RPUSH response · BLPOP response&nbsp;1 · set_result</code></li>
+</ol></div>
+<div class="details">
+<h3>What I built</h3><ul class="built">
+<li>Split serving into one async FastAPI frontend and separate worker processes that talk only through Redis, so inference never runs on the web event loop.</li>
+<li>Matched responses to requests without polling: each request awaits a Future keyed by its 16-byte id, and one background reader completes the right one.</li>
+<li>Replies are a fixed 24-byte binary message, struct '&lt;16sq' (UUID plus int64 class index), not JSON.</li>
+<li>Dynamic batching: up to 8 jobs or 200 ms, one MGET, one DEL, and one stacked forward pass on CPU under torch.no_grad.</li>
+<li>Found why the reader task died silently: redis-py 8's 5 s default socket timeout killed an unbounded BLPOP after 5 s of idle. Fixed it with a bounded 1 s BLPOP and a done-callback that prints the task's exception.</li>
+<li>Wrote an asyncio + httpx load generator (10 to 1,200 concurrent requests per level, p25 to p95 latency, failures grouped by status code). I raised its read timeout to 30 s after noticing the 5 s default was dropping slow requests from the stats.</li>
+<li>Capped each worker at one PyTorch thread so workers don't fight over cores, and gave the reader its own Redis connection.</li></ul>
+<div class="fix"><h3>What I'd fix next</h3><ul>
+<li>Give the Future a timeout. An image that fails to decode currently leaves its request waiting forever.</li>
+<li>Put a TTL on payload keys.</li>
+<li>Give each frontend its own response list. One shared list means one frontend process.</li>
+<li>Find the cause of the 502s that show up from 700 concurrent requests up.</li></ul></div>
+<p class="note">No speedup number yet. The same unbatched code measured about 2× apart on two different days, so batching gets a controlled, interleaved rerun before it gets a number.</p>
+<ul class="stack"><li>Python</li><li>FastAPI</li><li>asyncio</li><li>Redis</li><li>PyTorch</li><li>ResNet-18</li><li>httpx</li></ul>
+<ul class="links"><li hidden data-confirm="pending repo cleanup"><a href="https://github.com/ALIUD1/Inference-Server">Source on GitHub</a></li></ul>
+</div></article>
+
+<article class="project" id="socr-braingen" data-scene="denoise" data-accent="ok">
+<div class="story"><header>
+<p class="kicker">Research · SOCR lab, University of Michigan · 2026</p>
+<h2>SOCR BrainGen</h2>
+<p class="becomes">Blip becomes noise.</p>
+<p class="tagline">Synthetic brain MRI with tumors placed by lobe, about 10 seconds per image.</p>
+<p class="summary">In the University of Michigan SOCR lab I built an atlas-guided diffusion model that generates synthetic brain MRI slices. You choose where a tumor appears (which lobe, how high in the brain, how large), and about 10 seconds later you get a synthetic FLAIR image with a lesion there. I trained it on the public BraTS 2023 dataset on the university's Great Lakes cluster, added it as a sixth model to the lab's web app on a feature branch (not merged yet), and deployed its backend on Hugging Face ZeroGPU. I also built the harness that scores the lab's generator models.</p>
+<p class="credit">The lab's web app and its GAN models came before me; they're my labmates' work. Mine are the conditional diffusion model, its GPU backend, and the evaluation harness. <span hidden data-confirm="confirm advisor names">Advisors: Profs. Ivo Dinov and Simeone Marino. </span>A manuscript is in preparation.</p>
+</header><div class="figure"></div>
+<ol class="steps">
+<li><p>Pick a lobe and a tumor size. The real panel greys out the 7 of 18 lobe-and-height combinations the data can't support.</p><code>Tumor · Lobe (6) · Slice level (3) · Size (3)</code></li>
+<li><p>One random seed drives both the tumor shape and the starting noise, so any image can be regenerated.</p><code>seed → NumPy (mask) + PyTorch (noise)</code></li>
+<li><p>Anatomy comes from a held-out real scan in a conditioning bank, plus six lobe probability maps from an atlas.</p><code>T1 from a 42-slice bank · ICBM452 lobe maps</code></li>
+<li><p>The tumor is drawn first, inside the chosen lobe. It's an input to the model, not a prediction.</p><code>synth_mask: atlas × compactness × smoothed noise · core = 30% of lesion</code></li>
+<li><p>Generation starts from pure static.</p><code>x ~ N(0, I) · 1×1×256×256 · cond 1×8×256×256</code></li>
+<li style="--beat:3"><p>Then 200 steps: the U-Net predicts the noise, and the DDIM scheduler removes a calibrated share of it.</p><code>t = 995, 990, …, 5, 0 · 85,261,185-parameter U-Net</code></li>
+<li><p>About 10 seconds from click to image on Hugging Face ZeroGPU, about 6.3 s of it on the GPU.</p><code>[-1, 1] → [0, 1] · FLAIR + Tumor Mask PNGs</code></li>
+</ol></div>
+<div class="details">
+<h3>What I built</h3><ul class="built">
+<li>Added a sixth model, an atlas-guided conditional diffusion model, to the lab's brain-MRI web app on a feature branch. It took about 8.2k lines across backend inference, API endpoints and UI. The controls grey out the 7 of 18 lobe-by-level combinations the data can't support, so the site never quietly swaps in a different request.</li>
+<li>Deployed the backend as one Hugging Face ZeroGPU Gradio Space. The five GANs run on CPU and use no GPU quota; only the diffusion loop goes to the GPU, through a single function rebinding.</li>
+<li>The 85,261,185-parameter U-Net loads with strict=True plus a parameter-count check. A non-strict load can silently turn a mismatched checkpoint into random weights that still look brain-shaped.</li>
+<li>Wrote an atlas-conforming tumor generator. It seeds the lesion inside the chosen lobe and sizes it to that lobe's area (small 5–12%, moderate 15–35%, large 40–60%), split into edema and an enhancing core. The code is one file kept byte-identical in the research and web repos, and it matched the original SciPy version on all 78 test cases (Dice 1.0).</li>
+<li>Built the research pipeline: registered the ICBM452 lobe atlas into BraTS space with ANTs SyN, preprocessed about 1,250 BraTS 2023 patients into 163,974 nine-channel slices, and trained on U-M's Great Lakes GPUs with mixed precision and EMA weights.</li>
+<li>Built an evaluation harness for all 8 lab generator checkpoints: strict loading, a common 128×128 grid, no-reference metrics with 1,000-resample bootstrap confidence intervals, and a model-to-model FID matrix. I audited it against 27 candidate measurement defects and fixed the five that were real.</li>
+<li>Caught shipping bugs on the first real GPU run: an 8-vs-9-channel mismatch, a csv-vs-json manifest name, and a safetensors version conflict that would have broken every redeploy.</li></ul>
+<p class="explored">I also explored CLIP text conditioning through cross-attention and a 3D (64³) diffusion pipeline. Both are experiments, not finished features.</p>
+<p class="note">About the drawing: the slice is procedural and the noise schedule is illustrative. It is not model output and not patient data. With η = 0 and a perfect noise estimate, DDIM's path is exactly x_t = √ᾱ_t·x₀ + √(1−ᾱ_t)·ε, which is what the figure draws. Status: integrated on a feature branch of the lab's repo, not merged into the lab's live site yet.</p>
+<ul class="stack"><li>PyTorch</li><li>Hugging Face diffusers</li><li>ANTsPy</li><li>nibabel</li><li>Gradio</li><li>Hugging Face ZeroGPU</li><li>Next.js</li><li>Slurm on Great Lakes</li></ul>
+<ul class="links">
+<li><a href="https://github.com/SOCR/Brain-Image-Generator/tree/feat/conddiff-brats-v1">My branch in the lab repo (not yet merged)</a></li>
+<li><a href="https://brain-image-generator.vercel.app">The lab's BrainGen web app (serves the GAN models; mine is on the branch above)</a></li>
+<li hidden data-confirm="pending lab approval"><a href="https://github.com/ALIUD1/Socr_2026">Research code</a></li></ul>
+</div></article>
+
+<article class="project" id="claws" data-scene="telemetry" data-accent="warn">
+<div class="story"><header>
+<p class="kicker">Student team · NASA SUITS · 2026</p>
+<h2>CLAWS telemetry</h2>
+<p class="becomes">Blip grows an antenna.</p>
+<p class="tagline">A live spacesuit telemetry screen and an onboarding simulator for a NASA SUITS team.</p>
+<p class="summary">CLAWS is a University of Michigan student team in NASA SUITS (Spacesuit User Interface Technologies for Students), a challenge to design displays for astronauts on spacewalks. I built the team's EVA telemetry screen: a React page that shows two astronauts' life-support readings live and raises alerts when a value leaves its safe range or changes too fast. I also built and published a mock of NASA's telemetry server, with a Unity client and tests, so new teammates can learn the whole data path on their own laptops.</p>
+<p class="credit">Teammates built the Flask/Socket.IO backend, the Unity headset client, and the map and rover pages. The EVA screen, its alert rules, and the onboarding simulator are mine.</p>
+</header><div class="figure"></div>
+<ol class="steps">
+<li><p>NASA's Telemetry Stream Server answers an 8-byte question.</p><code>UDP · [uint32 timestamp][uint32 command = 1 (EVA)] → JSON</code></li>
+<li><p>The team's backend broadcasts each feed to every screen, about every 6 seconds.</p><code>socketio.emit('eva-telemetry') → React + Unity</code></li>
+<li><p>My EVA page checks 22 suit readings for each of two astronauts on every update.</p><code>checkRanges() · 22 ranges · 10 rate limits</code></li>
+<li><p>Out of range is danger. Off nominal is a warning. Changing too fast gets flagged.</p><code>&lt; min or &gt; max → danger · ≠ nominal → warn · |Δ|/Δt &gt; limit → fast</code></li>
+<li><p>Alerts are deduped by id, sorted danger-first, and tint the matching gauges.</p><code>dedupe by id · danger first · newest 5</code></li>
+<li><p>For new teammates, I built a fake NASA that runs on a laptop at 5 Hz.</p><code>mock_tss.py · FastAPI /ws · panel.py · TssClient.cs · pytest</code></li>
+</ol></div>
+<div class="details">
+<h3>What I built</h3><ul class="built">
+<li>Built the team's EVA telemetry screen. 699 of the 762 lines in the original page are mine, and the live /eva route is a teammate's copy of it, with 705 of its 753 lines tracing back to me.</li>
+<li>Wrote a client-side caution and warning engine: 22 suit fields with min, max and nominal values plus 10 per-second rate limits, checked for both astronauts on every update. Alerts are deduped, sorted danger-first, and color the matching gauges.</li>
+<li>Built a FastAPI mock of NASA's Telemetry Stream Server. It simulates suit O2, pressure, battery, heart rate, the UIA/DCU switches and an astronaut walking between points of interest, and streams the state at 5 Hz over a WebSocket. It comes with a CLI control panel and a Unity C# client (TssClient.cs) that parks the newest frame on a background thread and parses it on the main thread.</li>
+<li>Wrote a pytest that runs the NASA SUITS egress procedure against the simulator by stepping simulated time by hand instead of waiting.</li>
+<li>New members have already started branches on the onboarding repo.</li>
+<li>Added Git LFS rules for Unity and media assets, a Node .gitignore, and the team repo's first GitHub Actions workflow.</li></ul>
+<p class="note">The team's live feed refreshes each stream about every 6 s. The 5 Hz pulses in the drawing come from the onboarding mock. The gauges are an illustration with demo values, not the team's UI.</p>
+<ul class="stack"><li>React</li><li>TypeScript</li><li>Socket.IO</li><li>FastAPI</li><li>WebSockets</li><li>Unity C#</li><li>pytest</li><li>GitHub Actions</li></ul>
+<ul class="links"><li><a href="https://github.com/ALIUD1/Infra-2026-2027-onboarding">Onboarding simulator repo</a></li></ul>
+</div></article>
+
+<article class="project" id="noverwatch" data-scene="killswitch" data-accent="danger">
+<div class="story"><header>
+<p class="kicker">Solo project · Windows service · Feb–Mar 2026</p>
+<h2>Noverwatch</h2>
+<p class="becomes">Blip tries to play Overwatch.</p>
+<p class="tagline">A Windows service that kills Overwatch the moment it launches.</p>
+<p class="summary">I wrote a small Windows service to keep myself off Overwatch. It runs quietly in the background, and the moment Windows reports that Overwatch has started, it writes the attempt to a log and shuts the game down. It works: its log shows 8 kills, all during testing in March 2026.</p>
+<p class="pull">The game launches. Then it doesn't.</p>
+</header><div class="figure"></div>
+<ol class="steps">
+<li><p>I wrote a Windows service to keep me off Overwatch.</p><code>.NET 10 worker service · runs as LocalSystem</code></li>
+<li><p>I press Play. Windows creates the game's process first; nothing stops the launch itself.</p><code>Overwatch.exe · PID 12400 (example)</code></li>
+<li><p>Windows announces every new process. The service is subscribed to those announcements, so it isn't polling.</p><code>SELECT * FROM Win32_ProcessStartTrace · name == config["Games"]</code></li>
+<li><p>It logs the attempt, then kills the process.</p><code>append log.txt · Process.Kill() · LogCritical</code></li>
+<li><p>Then it goes back to listening.</p><code>heartbeat: "The Noverwatch system is online" every&nbsp;100&nbsp;s</code></li>
+</ol></div>
+<div class="details">
+<h3>How it works</h3><ul class="built">
+<li>Event-driven: it subscribes to Windows process-start events through WMI instead of scanning the process list.</li>
+<li>The target game is read from appsettings.json, not hard-coded.</li>
+<li>On a match it appends the name, PID and time to a log file, ends that process (only the matching PID) with Process.Kill(), and logs at Critical level.</li>
+<li>It runs as an installed Windows service (LocalSystem, manual start). The hosting follows Microsoft's BackgroundService tutorial; the detector is mine.</li>
+<li>It ships as one self-contained, single-file exe of about 89.5 MB that needs no .NET install. That's 89.5 MB to close one game.</li>
+<li>42 publish attempts, 14 of them failed. Then it worked.</li></ul>
+<div class="fix"><h3>What I'd fix next</h3><ul>
+<li>Every 100&nbsp;s heartbeat creates a new watcher without disposing the old one.</li>
+<li>Detection only starts if Information-level logging is on, so raising the log level would silently switch it off.</li>
+<li>"Blocked n" counts per watcher, not over the service's lifetime.</li>
+<li>Process objects are never disposed.</li></ul></div>
+<p class="note">Not on GitHub; it was never under version control. Happy to walk through the source. The drawing is a reenactment with a generic Play button, no game art.</p>
+<ul class="stack"><li>C#</li><li>.NET 10 Worker Service</li><li>WMI (System.Management)</li><li>Windows Service</li></ul>
+</div></article>
+
+<article class="project" id="mapreduce">
+<div class="story"><header>
+<p class="kicker">Project · Python</p>
+<h2>Distributed MapReduce</h2>
+<p class="becomes">Blip builds it.</p>
+<p class="tagline">A manager/worker MapReduce framework over raw TCP and HTTP sockets.</p>
+<p class="summary">A manager process partitions the input, hands map and reduce tasks to six worker processes, and coordinates the shuffle between them. Heartbeat monitoring catches workers that go silent, and their tasks are reassigned, so a job recovers within roughly one to two seconds under injected faults with no finished work lost.</p>
+</header><div class="figure"></div>
+<ol class="steps">
+<li data-label="Partition"><p>The manager splits the input into partitions.</p><code>manager · TCP</code></li>
+<li data-label="Map ×6"><p>Map tasks run across six worker processes.</p><code>6 workers</code></li>
+<li data-label="Shuffle"><p>Intermediate output is shuffled to the right reducers.</p><code>shuffle</code></li>
+<li data-label="Reduce"><p>Reduce tasks write the final output.</p><code>reduce</code></li>
+<li data-label="Heartbeats"><p>Heartbeats reveal a worker that went silent.</p><code>heartbeat monitoring</code></li>
+<li data-label="Reassign"><p>Its tasks are reassigned, and finished work is kept.</p><code>recovers in ~1–2 s under injected faults</code></li>
+</ol></div>
+<div class="details">
+<h3>What I built</h3><ul class="built">
+<li>A Manager/Worker MapReduce framework over raw TCP and HTTP sockets that partitions input, coordinates the intermediate shuffle, and distributes map and reduce tasks across six worker processes.</li>
+<li>Heartbeat monitoring and task reassignment, so the manager detects silent workers and restores full job progress within roughly one to two seconds under injected faults, with no loss of finished work.</li></ul>
+<p class="note">Described, not linked.</p>
+<ul class="stack"><li>Python</li><li>TCP/HTTP sockets</li><li>Concurrency</li><li>Fault tolerance</li></ul>
+</div></article>
+</section>
+
+<section id="experience" aria-labelledby="exp-h"><h2 id="exp-h">Experience</h2>
+<ol class="log">
+<li class="row"><h3>Miller Industries <span class="role">BIM/VDC Development Intern · Fenton, MI</span></h3><p class="dates">Sept 2026 – present</p><ul>
+<li>Automated a Python reality-capture pipeline that pulls scan archives from Autodesk Construction Cloud, drives ReCap Pro to index them, and emits production RCS deliverables, replacing a manual per-file workflow.</li>
+<li>Building multi-scan alignment that registers separate field captures of one job site into a single shared coordinate frame.</li></ul></li>
+<li class="row"><h3>SOCR, University of Michigan <span class="role">Software Engineering Researcher · Ann Arbor, MI</span></h3><p class="dates">Dec 2025 – present</p><ul>
+<li>Lead the lab's brain image generation team<span hidden data-confirm="confirm advisor names"> under Profs. Ivo Dinov and Simeone Marino</span>. I built the conditional diffusion model above, its GPU backend, and the evaluation harness.</li>
+<li>Cut the lab's recurring cloud spend by over $230/month administering AWS Lightsail, Supabase, and Vercel.</li></ul></li>
+<li class="row" data-blip="legs"><h3>Field AI <span class="role">Field Application Engineer Intern · Detroit, MI</span></h3><p class="dates">Mar – Jul 2026</p><ul>
+<li>Deployed a Boston Dynamics Spot with an Ouster LiDAR payload to autonomously map an industrial facility as 3D point clouds, running missions end to end and checking coverage against site plans.</li></ul></li>
+<li class="row"><h3>CLAWS, NASA SUITS 2026–27 team <span class="role">Infrastructure team<span hidden data-confirm="confirm title + subteam size">: Director of Infrastructure, leading a six-person subteam</span></span></h3><p class="dates">Mar 2026 – present</p><ul>
+<li>Built the EVA telemetry screen and its alert engine, the onboarding simulator new members learn on, and the team repo's Git LFS rules and first GitHub Actions workflow.</li></ul></li>
+</ol>
+<h3>Also built</h3><ul class="also">
+<li>A C++ graph optimization engine computing minimum spanning trees and approximate and optimal TSP tours over 10,000-node graphs.</li>
+<li>A cycle-accurate five-stage MIPS pipeline simulator in C with forwarding and hazard detection.</li></ul>
+<div class="skills">
+<p><b>Languages</b> Python, C++, C, C#, JavaScript, TypeScript, SQL (PostgreSQL), Java, R, Bash, MIPS Assembly</p>
+<p><b>Frameworks</b> PyTorch, Hugging Face Diffusers, NumPy, OpenCV, FastAPI, Flask, React, Next.js, Node.js, Unity</p>
+<p><b>Tools</b> Linux, Git, Docker, Redis, GitHub Actions, AWS, Vercel, Supabase, Slurm/HPC, WebSockets</p></div>
+</section>
+<section id="about" aria-labelledby="about-h"><h2 id="about-h">About</h2>
+<p>I like the unglamorous parts: queues, checkpoints, CI, cloud bills. I audited my own evaluation harness for 27 ways it could be lying to me; five were real, and I fixed them. I've run a Boston Dynamics Spot through LiDAR mapping missions in an industrial facility, built an offline LeetCode kit with tiered hints so flights count as practice, and wrote a Windows service to keep me off Overwatch. You saw how that went.</p></section>
+</main>
+
+<footer id="contact">
+<h2>Say h<span class="i-anchor">i<svg class="blip-static" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><use href="#blip-default"/><use href="#blip-face"/></svg></span></h2>
+<p class="email"><a href="mailto:liualex639@gmail.com">liualex639@gmail.com</a> <button type="button" class="copy" hidden>Copy</button></p>
+<ul class="contact-row"><li><a href="https://github.com/ALIUD1">GitHub</a></li><li><a href="https://www.linkedin.com/in/alex-liu-a77403408">LinkedIn</a></li><li hidden data-confirm="add a phone-free resume.pdf"><a href="resume.pdf">Résumé (PDF)</a></li></ul>
+<p class="fine">Hand-built with HTML, CSS, and vanilla JS. No frameworks, no trackers, no build step.</p>
+<div class="prefs"><button type="button" class="theme" hidden>Theme</button> <button type="button" class="motion" hidden>Motion: on</button></div>
+</footer>
+<p id="live" class="sr-only" aria-live="polite"></p>
+<button class="blip" type="button" aria-label="Poke Blip"></button>
+
+<script src="js/scenes/lib.js" defer></script>
+<script src="js/scenes/generic.js" defer></script>
+<script src="js/scenes/queue.js" defer></script>
+<script src="js/scenes/denoise.js" defer></script>
+<script src="js/scenes/telemetry.js" defer></script>
+<script src="js/scenes/killswitch.js" defer></script>
+<script src="js/core.js" defer></script>
+</body>
+</html>

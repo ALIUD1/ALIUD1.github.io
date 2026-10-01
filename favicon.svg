@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<style>
+.b{fill:#FF5B37}.d{fill:#D9411F}.h{fill:none;stroke:#F4F0E6;stroke-width:3;stroke-linecap:round;opacity:.55}
+.c{fill:#FF9A80;opacity:.45}.e{fill:#FFFFFF}.p{fill:#16171B}.s{stroke:#16171B;stroke-width:2;stroke-linecap:round}
+@media (prefers-color-scheme:dark){.b{fill:#FF6B47}.d{fill:#E8532F}.h{stroke:#111216}.c{fill:#FF9F87}.s{stroke:#EFEAE0}}
+</style>
+<path class="b" d="M8 50C8 24 19 8 32 8C45 8 56 24 56 50C56 56 52 58 32 58C12 58 8 56 8 50Z"/>
+<path class="d" d="M12 52C16 57 48 57 52 52C50 56 44 58 32 58C20 58 14 56 12 52Z"/>
+<path class="h" d="M17 26C19 18 24 14 29 13"/>
+<ellipse class="c" cx="19" cy="42" rx="3.5" ry="2"/><ellipse class="c" cx="45" cy="42" rx="3.5" ry="2"/>
+<line class="s" x1="32" y1="8" x2="32" y2="2"/><circle class="d" cx="32" cy="2" r="2.2"/>
+<ellipse class="e" cx="25" cy="33" rx="5" ry="6"/><ellipse class="e" cx="39" cy="33" rx="5" ry="6"/>
+<circle class="p" cx="25" cy="33" r="2.6"/><circle class="p" cx="39" cy="33" r="2.6"/>
+</svg>
