@@ -1,0 +1,625 @@
+{
+ "profile": {
+  "name": "Alex Liu",
+  "school": "University of Michigan, College of Engineering (Ann Arbor, MI)",
+  "degree": "B.S.E. in Computer Science (GPA 3.7/4.0 as printed on the current resume)",
+  "gradYear": "Expected May 2028",
+  "location": "Ann Arbor, MI",
+  "publicEmail": "liualex639@gmail.com",
+  "github": "https://github.com/ALIUD1",
+  "linkedin": "https://www.linkedin.com/in/alex-liu-a77403408 (from resume header; LinkedIn returned HTTP 999 bot-block to an automated check, so Alex should click it once to confirm it resolves)",
+  "otherLinks": [
+   "https://github.com/ALIUD1/Inference-Server (public; README is currently a one-line UTF-16 title, so write a real README before linking it from the site)",
+   "https://github.com/ALIUD1/Socr_2026 (public; Synthetic Brain MRI Generation research code)",
+   "https://github.com/SOCR/Brain-Image-Generator (SOCR org repo; Alex has 9 of 36 commits; his HF ZeroGPU Space work is on branch feat/conddiff-brats-v1, not merged to main)",
+   "https://github.com/ALIUD1/Infra-2026-2027-onboarding (public; CLAWS Mock TSS onboarding repo he wrote for his subteam)"
+  ],
+  "experience": [
+   {
+    "org": "Miller Industries",
+    "role": "BIM/VDC Development Intern (Fenton, MI)",
+    "dates": "Sept. 2026 - Present",
+    "bullets": [
+     "Automated an end-to-end reality-capture pipeline in Python that pulls scan archives from Autodesk Construction Cloud, drives ReCap Pro to index them, and emits production RCS deliverables, replacing a manual per-file workflow.",
+     "Building multi-scan alignment that registers separate field captures of one job site into a single shared coordinate frame, removing a manual stitching step from the model-coordination handoff."
+    ]
+   },
+   {
+    "org": "Statistical Online Computational Resource (SOCR), University of Michigan",
+    "role": "Software Engineering Researcher (Ann Arbor, MI)",
+    "dates": "Dec. 2025 - Present",
+    "bullets": [
+     "Lead the brain image generation team under Profs. Ivo Dinov and Simeone Marino, owning the 2D model line of a six-variant suite spanning conditional GANs, wavelet-domain GANs, and denoising diffusion models.",
+     "Built an anatomy-conditioned diffusion model in PyTorch fusing atlas segmentation channels with a cross-attention U-Net and CLIP encoder, trained on the Great Lakes HPC cluster under Slurm with checkpoint/resume logic.",
+     "Implemented mask and text dropout so one checkpoint serves four conditioning modes, then benchmarked eight checkpoints on FID, background SNR, and lesion contrast-to-noise ratio with 1,000-resample bootstrap CIs.",
+     "Adversarially audited the evaluation harness against 27 candidate measurement defects, confirming and fixing five, and cut recurring cloud spend by over $230/month administering AWS Lightsail, Supabase, and Vercel."
+    ]
+   },
+   {
+    "org": "Field AI",
+    "role": "Field Application Engineer Intern (Detroit, MI)",
+    "dates": "Mar. 2026 - July 2026",
+    "bullets": [
+     "Deployed a Boston Dynamics Spot quadruped with an Ouster LiDAR payload to autonomously map an industrial facility as 3D point clouds, running missions end to end and verifying coverage against site plans."
+    ]
+   },
+   {
+    "org": "Collaborative Lab for Advancing Work in Space (CLAWS), University of Michigan student team",
+    "role": "Director of Infrastructure, NASA SUITS Challenge Team",
+    "dates": "Mar. 2026 - Present",
+    "bullets": [
+     "Lead a six-person infrastructure subteam for the NASA SUITS 2026-27 challenge and built the team's CI/CD pipeline from scratch in GitHub Actions, gating every merge on automated install, build, and test jobs.",
+     "Integrated a real-time telemetry link across a React frontend, Flask backend, and Unity (C#) simulation clients over WebSockets, standardizing the JSON schema and API contract for low-latency bidirectional sync."
+    ]
+   },
+   {
+    "org": "PROJECT: Distributed ML Inference Server (github.com/ALIUD1/Inference-Server)",
+    "role": "Personal project | Python, FastAPI, asyncio, Redis, PyTorch, ResNet-18",
+    "dates": "2026",
+    "bullets": [
+     "Built a multi-worker serving system in which a FastAPI event loop parks each request on an asyncio future while detached worker processes return ResNet-18 predictions through Redis over a packed 24-byte binary contract (verified in code: struct '<16sq').",
+     "Added dynamic batching with a max-batch (8) and fill-deadline dispatch policy, stacking queued images into one batched forward pass per worker. (Throughput/latency numbers deliberately left out; see omit.)",
+     "Root-caused an intermittent service-wide hang to a background asyncio task silently killed by redis-py's 5s default socket timeout on an unbounded BLPOP; added done-callback instrumentation so task deaths surface immediately.",
+     "Traced a throughput collapse at four workers to PyTorch intra-op thread contention rather than CPU saturation and fixed it by pinning one torch thread per worker."
+    ]
+   },
+   {
+    "org": "PROJECT: Distributed MapReduce Framework",
+    "role": "Project | Python, TCP/HTTP, Concurrency, Fault Tolerance",
+    "dates": "",
+    "bullets": [
+     "Built a Manager/Worker MapReduce framework over raw TCP and HTTP sockets that partitions input, coordinates the intermediate shuffle, and distributes map and reduce tasks across six worker processes.",
+     "Added heartbeat monitoring and task reassignment so the manager detects silent workers and restores full job progress within roughly one to two seconds under injected faults, with no loss of finished work."
+    ]
+   },
+   {
+    "org": "PROJECT: Systems and Algorithms",
+    "role": "Projects | C++, C",
+    "dates": "",
+    "bullets": [
+     "Graph optimization engine in C++ computing minimum spanning trees and approximate and optimal TSP tours over 10,000-node graphs.",
+     "Cycle-accurate five-stage MIPS pipeline simulator in C with forwarding and hazard detection."
+    ]
+   }
+  ],
+  "skills": [
+   "Languages: Python, C++, C, C#, JavaScript, TypeScript, SQL (PostgreSQL), Java, R, Bash/Shell, MIPS Assembly",
+   "Frameworks: PyTorch, HuggingFace Diffusers, NumPy, OpenCV, FastAPI, Flask, React, Next.js, Node.js, Unity",
+   "Tools: Linux, Git, Docker, Redis, GitHub Actions, CI/CD, AWS, Vercel, Supabase, Slurm/HPC, WebSockets"
+  ],
+  "coursework": [
+   "NOT listed on the current resume; the following are inferred from local folders and project types and need Alex's confirmation before publishing:",
+   "EECS 489 Computer Networks (local miniNet project, Fall 2026)",
+   "EECS 445 Machine Learning (local hw1/p1: perceptron, linear and logistic regression, ROC analysis)",
+   "Likely EECS 485 (MapReduce), EECS 281 (MST/TSP graph engine), EECS 370 (MIPS pipeline simulator) based on the resume projects"
+  ],
+  "awardsOrExtras": [
+   "Research: Liu, A., Yu, J., Marino, S., Dinov, I., et al. Synthetic 2D and 3D Brain MRI Generation with Conditional GANs, Wavelet-Domain GANs, and Diffusion Models. Manuscript in preparation, targeting 2026 submission (present it as in preparation, not published or submitted).",
+   "Director of Infrastructure, CLAWS (NASA SUITS 2026-27 challenge team); wrote a public onboarding repo (Mock TSS: FastAPI fake telemetry server + control panel + Unity WebSocket client) to train his subteam."
+  ],
+  "headlineIdeas": [
+   "CS @ Michigan building ML systems, from diffusion models for brain MRI to distributed inference servers.",
+   "I build the infrastructure that makes models usable: training on HPC, serving under load, shipping with CI.",
+   "Michigan CS '28. Research engineer on brain MRI generation, infra lead for a NASA SUITS team, and occasional robot-dog operator.",
+   "Systems-minded ML engineer: PyTorch, Redis, asyncio, and an honest benchmark."
+  ],
+  "otherProjects": [
+   {
+    "name": "Synthetic Brain MRI Generation (Socr_2026)",
+    "oneLine": "Conditional pipeline turning a BraTS scan, tumor mask, and ICBM452 atlas prior into synthetic FLAIR MRI; public repo, best candidate for a dedicated research page with eval-grid figures.",
+    "path": "C:/Users/alexl/code/Research/socr/Summer2026 (github.com/ALIUD1/Socr_2026)"
+   },
+   {
+    "name": "Brain-Image-Generator web app (SOCR)",
+    "oneLine": "Next.js + Supabase front end for the lab's generators; Alex added the atlas-guided conditional diffusion model and a free-tier Hugging Face ZeroGPU backend (unmerged feature branch, so do not link as a live demo yet).",
+    "path": "C:/Users/alexl/code/Research/socr/Brain-Image-Generator (github.com/SOCR/Brain-Image-Generator)"
+   },
+   {
+    "name": "SOCR evaluation harness",
+    "oneLine": "Generate/score/report scripts behind the FID, SNR, and lesion-CNR bootstrap benchmarks; not in git, could become a write-up once the manuscript is out.",
+    "path": "C:/Users/alexl/code/Research/socr/_socr_eval"
+   },
+   {
+    "name": "CLAWS Mock TSS onboarding",
+    "oneLine": "Fake NASA telemetry server (FastAPI) plus a switch panel and Unity WebSocket client so new infra members learn the data path on a laptop.",
+    "path": "github.com/ALIUD1/Infra-2026-2027-onboarding (no local clone found)"
+   },
+   {
+    "name": "Onki-Wine scraper",
+    "oneLine": "Scrapes a champagne house's English site into a structured SQLite DB with a standalone HTML inspector; if featured, describe generically and avoid using the company's name or branding.",
+    "path": "github.com/ALIUD1/Onki-Wine (no local clone found)"
+   },
+   {
+    "name": "miniNet (iPerf clone)",
+    "oneLine": "EECS 489 project: C++ socket throughput/latency tool measured over custom Mininet topologies; course honor code requires the repo stay private, so describe only, never link or show code.",
+    "path": "C:/Users/alexl/code/miniNet (github.com/ALIUD1/miniNet, private)"
+   },
+   {
+    "name": "EECS 445 ML coursework",
+    "oneLine": "Perceptron, linear/logistic regression, and a classifier project with ROC and L0-norm analysis; course code, mention as coursework only.",
+    "path": "C:/Users/alexl/code/eecs445"
+   },
+   {
+    "name": "Offline LeetCode plane pack",
+    "oneLine": "Self-built offline practice kit (7 medium problems, progressive hints, test runner) for studying on flights; personality material, not a portfolio project.",
+    "path": "C:/Users/alexl/code/leetcode_plane_pack"
+   },
+   {
+    "name": "PTBY",
+    "oneLine": "Two-commit Google Calendar API quickstart test; not portfolio-ready.",
+    "path": "C:/Users/alexl/code/PTBY (github.com/ALIUD1/PTBY)"
+   },
+   {
+    "name": "Aerial-Tracker",
+    "oneLine": "Public repo with only a title README; nothing to show yet.",
+    "path": "github.com/ALIUD1/Aerial-Tracker"
+   }
+  ],
+  "personalityClues": [
+   "Built himself an offline LeetCode pack with tiered hints so he can practice on flights.",
+   "Has operated a Boston Dynamics Spot robot dog with LiDAR to map a factory.",
+   "Infra lead on a NASA SUITS spacesuit-display team; writes friendly, diagram-first onboarding docs for teammates.",
+   "Skeptic of his own numbers: adversarially audited his eval harness for 27 possible defects and is re-running his own benchmark rather than trusting a flattering result.",
+   "Debugging war stories: a server hang caused by an asyncio task silently dying on a Redis socket timeout.",
+   "Cost-conscious cloud admin: cut a lab's recurring cloud bill by over $230/month and moved a demo to a free-tier HF Space.",
+   "Works across the stack and across fields: construction reality capture, medical imaging, robotics, and space telemetry."
+  ],
+  "omit": [
+   "Phone number printed in the current resume header (never publish).",
+   "No street address appears on the current resume; only 'Ann Arbor, MI' is safe to show.",
+   "Inference-Server '31 to 51 req/s (1.63x)' batching throughput claim: UNVERIFIED and likely machine variance (same unbatched code measured ~2x apart on different days); do not publish until a controlled interleaved rerun is committed.",
+   "The rest of that same bullet ('saturation from 10 to 700 concurrent', 'cut p50 latency 26% at 1,200 concurrent'): comes from the same unverified before/after runs, so omit too.",
+   "Inference-Server 'balancing worker CPU within 0.2%': per Alex's 2026-09-26 review this came from the BLPOP change, not the thread pinning it is attached to; drop the number or reattribute after the rerun.",
+   "Stale resume C:/Users/alexl/Downloads/Alex_Liu_Resume (1).pdf: has '[X]% at [Y]' placeholders and outdated claims of worker heartbeats/health checks and Docker containerization for the Inference Server; do not use any of it.",
+   "Manuscript: say 'in preparation'; never 'published', 'submitted', or 'accepted'.",
+   "Brain-Image-Generator HF ZeroGPU Space: work is on an unmerged branch of the SOCR repo; do not present as a live public demo.",
+   "miniNet and eecs445 code: course work under the honor code (miniNet spec requires private repos); describe at most, never link or embed code.",
+   "C:/Users/alexl/code/scrt: secrets-style folder; not read beyond its listing and nothing from it used.",
+   "Second email address from the session context (not on the resume) must not be used; only liualex639@gmail.com is public.",
+   "Coursework list is inferred, not from the resume; confirm with Alex before publishing."
+  ]
+ },
+ "inference-server": {
+  "name": "Inference Server",
+  "slug": "inference-server",
+  "tagline": "Async image-classification server with a Redis queue and batched workers",
+  "summary": "A small model-serving system that labels uploaded images with a ResNet18 neural network. A web server accepts each image and hands it to a separate pool of worker processes through a Redis queue. The workers group waiting images into batches, run each batch through the model in one pass, and send every answer back to the request that is waiting for it. Alex built it from scratch as a learning project, along with his own load-testing tool that measures latency and throughput at up to 1,200 simultaneous requests.",
+  "role": "Alex wrote the whole project: all 24 commits from 2026-06-23 to 2026-09-26 are his, 22 under GitHub user ALIUD1 and 2 under a second identity of his, Alex-M-Liu. HANDOFF.md's working rules say main.py (the FastAPI frontend), worker.py (the batching inference worker) and load_test.py (the async load generator) are his own code. He took the design from a single-process FastAPI + ResNet18 endpoint (commit 3f06f73, Jun 24) to separate frontend and worker processes over Redis (2a1cd44, Jul 28). Along the way he added a dedicated reader connection (b876ddd), capped each worker at 1 torch thread (db7a8e1), fixed the reader-task crash (326d74c) and added worker-side batching (c62665e/721acad Aug 14, reworked in b10d04f Sep 26). The read-only diagnostic scripts (diagnose_502.py, inspect_redis.py, single_request.py) and HANDOFF.md were written with AI assistance in a coaching setup, so they should not be credited as his core code.",
+  "stack": [
+   "Python 3.14",
+   "FastAPI",
+   "Uvicorn",
+   "asyncio",
+   "Redis (lists + key/value; run locally in a Docker Desktop container)",
+   "redis-py 8 (redis.asyncio in the frontend, sync client in the workers)",
+   "PyTorch",
+   "torchvision ResNet18 (ImageNet weights)",
+   "Pillow",
+   "httpx (async load generator)",
+   "NumPy (percentiles)",
+   "struct (binary wire format)"
+  ],
+  "highlights": [
+   {
+    "text": "Split the model server into one async FastAPI frontend and N independent worker processes that talk only through Redis. Model inference never runs on the web event loop, and only bytes cross the process boundary.",
+    "source": "main.py and worker.py at b10d04f; commit 2a1cd44 (2026-07-28) 'Seperate main and worker integrated with redis'"
+   },
+   {
+    "text": "Matches responses to requests without polling. Each HTTP request waits on an asyncio Future stored under a 16-byte UUID, and one background reader task completes the right Future when its result arrives.",
+    "source": "main.py: pending_jobs, store_coroutine, response_reader, awake_coroutine, lifespan"
+   },
+   {
+    "text": "Results come back as a fixed 24-byte binary message, struct '<16sq' (16-byte UUID plus int64 ImageNet class index), instead of JSON.",
+    "source": "worker.py push_response_to_queue; main.py response_reader (struct.unpack('<16sq', ...))"
+   },
+   {
+    "text": "Dynamic batching in the worker: it collects up to 8 queued jobs or waits at most 200 ms, reads all images with one MGET and deletes them with one DEL, then runs a single stacked ResNet18 forward pass under torch.no_grad.",
+    "source": "worker.py at b10d04f (BATCH_SIZE = 8, BATCH_FILL_WAIT_TIME = 0.2, blpop timeout 0.05, r.mget, r.delete(*job_ids), torch.stack)"
+   },
+   {
+    "text": "Found why a background task was dying silently. redis-py 8 sets a 5 s default socket timeout, so an unbounded blocking pop failed after 5 s of idle time and killed the reader. Fixed it with a bounded 1 s BLPOP plus a done-callback that prints the task's exception.",
+    "source": "commit 326d74c (2026-08-11) main.py diff; venv redis/_defaults.py DEFAULT_SOCKET_TIMEOUT = 5 (redis-py 8.0.1); HANDOFF.md section 5.1"
+   },
+   {
+    "text": "Built an asyncio + httpx load generator. It fires 10 to 1,200 concurrent requests per level and reports client and server p25/p50/p75/p95 latency, throughput, and failures grouped by status code.",
+    "source": "load_test.py (calculate_latency, look_bttr, run_latency_test levels [10..1200])"
+   },
+   {
+    "text": "Spotted survivorship bias in the latency stats: the client's default 5 s timeout was dropping slow requests before they were counted. Raised the read timeout to 30 s so the percentiles include the slow tail.",
+    "source": "load_test.py httpx.Timeout(5.0, read=30.0); HANDOFF.md section 5.2"
+   },
+   {
+    "text": "Capped each worker process at one PyTorch thread so several workers don't fight over the same CPU cores. Gave the blocking response reader its own Redis connection, separate from the request-path pool.",
+    "source": "commit db7a8e1 (torch.set_num_threads(1) in worker.py); commit b876ddd (r_reader in main.py)"
+   },
+   {
+    "text": "In a committed 4-worker load test (before batching), every request at 10, 100, 200, 300 and 500 concurrent completed with zero failures.",
+    "source": "logs/step4_4_workers.txt (committed in fead50b, 2026-08-12)"
+   }
+  ],
+  "avoid": [
+   "'31 -> 51 req/s', '1.63x', 'about 1.6x', or the commit message's '1.55 improvement' as a batching speedup. None of these is verified. The 51 req/s table exists only in HANDOFF.md, not in any committed log. The same unbatched 4-worker code ran about 2x faster on Aug 4 than on Aug 12 (server p50 at 10 concurrent was 0.110 s vs 0.214 s). The committed batching log (logs/test.txt) peaks around 23-31 req/s.",
+   "Any other number from HANDOFF.md's 'after batching' table: 'p50 cut 26% at peak load', 'saturation moved from ~10 to ~700 concurrent', 'crossover between 300 and 500 concurrent', 'avg batch fill 7.6-7.9 of 8'.",
+   "'Worker CPU balanced within 0.2%'. This appears only in HANDOFF.md, and no committed log backs it.",
+   "'Batching makes each image 1.47x or 1.58x faster', taken from logs/optimal_batch_test.txt. That microbenchmark ran multi-threaded inside main.py, while the workers run 1 torch thread, where batch 8 saves only about 6-13% per image.",
+   "'~31 req/s' as a headline or as the baseline for a speedup. It is a single machine-dependent run (logs/step4_4_workers.txt), and on other days the same code ran much faster.",
+   "'Uses LPUSH'. The real ops are SET + RPUSH on 'jobs', BLPOP by the workers, then RPUSH/BLPOP on 'response', which makes both lists FIFO queues.",
+   "'Heartbeats', 'failover', 'restarts stalled workers', 'self-healing'. Step 6 was never started, and the repo has no heartbeat code.",
+   "'Dockerized' or 'Docker deployment'. There is no Dockerfile; Redis just runs in a local Docker container.",
+   "'Model versioning' or 'v1/v2 A/B serving'. This was never built.",
+   "'Fault tolerant', 'no lost requests', 'guaranteed delivery'. The frontend awaits the Future with no timeout. If an image fails to decode or a worker dies mid-batch, that request hangs forever, and payload keys have no TTL.",
+   "'Horizontally scalable frontend' or 'multiple uvicorn workers'. All frontends share one 'response' list, so a second frontend process would steal the first one's responses.",
+   "'Zero failures at 1,200 concurrent'. The committed log shows 147 HTTP 502s at 1,200 concurrent and a few at 700-1000.",
+   "'Fixed the 502s' or 'the 502s were caused by a proxy'. The root cause was never confirmed.",
+   "'Tuned the batch wait time with a parameter sweep'. The sweep was invalid: load_test.py set worker.BATCH_FILL_WAIT_TIME in its own process, so the running workers never saw the new values.",
+   "'GPU inference'. Inference is CPU-only at 1 torch thread per worker.",
+   "'Production' or 'serves 1,200 concurrent users'. All of this is a local laptop benchmark."
+  ],
+  "flow": [
+   "1. A client sends HTTP POST / to Uvicorn on port 8001 with an image as multipart form data. The FastAPI handler predict_img reads the bytes from UploadFile and starts a timer.",
+   "2. The handler creates a job id with uuid.uuid4().bytes (16 raw bytes). store_coroutine creates an asyncio Future and stores it in the in-memory dict pending_jobs[job_id]. The request is now parked, and the event loop is free to serve other requests.",
+   "3. add_to_queue (async redis client, pool max_connections=1000) runs 'SET <job_id> <image_bytes>' to store the payload, then 'RPUSH jobs <job_id>' to put the id at the tail of the 'jobs' list. Only the 16-byte id travels through the queue. The handler then awaits the Future, with no timeout.",
+   "4. N separate worker processes (4 in the benchmarks, each with torch.set_num_threads(1)) loop on 'BLPOP jobs 1'. Whichever worker is idle receives the id from the head of the list. If nothing arrives within 1 s it gets None and loops again.",
+   "5. The batch window opens on the first job. The worker keeps calling 'BLPOP jobs 0.05' until it holds BATCH_SIZE=8 ids or BATCH_FILL_WAIT_TIME=0.2 s has passed, so a batch closes either when it is full or when the time runs out.",
+   "6. The worker fetches every image in one round trip with 'MGET id1..idN', then removes the payload keys with 'DEL id1..idN'.",
+   "7. Each image is decoded with Pillow and converted to RGB. ResNet18's default ImageNet transforms (resize 256, center crop 224, normalize) turn it into a [3,224,224] tensor. torch.stack builds a [B,3,224,224] batch and one forward pass under torch.no_grad yields [B,1000] logits. argmax of each row gives that image's ImageNet class index.",
+   "8. For each image the worker packs struct.pack('<16sq', job_id, class_idx), a 24-byte message, and runs 'RPUSH response <payload>'.",
+   "9. In the frontend, the background task response_reader (started in the FastAPI lifespan, using its own Redis connection r_reader) loops on 'BLPOP response 1' and unpacks each '<16sq' message. awake_coroutine pops the matching Future from pending_jobs and calls set_result(class_idx).",
+   "10. The parked handler resumes and returns JSON {\"Category_Number\": <ImageNet class index>, \"Server_Rate\": <seconds spent server-side>}. On startup the lifespan also runs FLUSHDB to clear the queues."
+  ],
+  "links": [
+   {
+    "label": "GitHub repository",
+    "url": "https://github.com/ALIUD1/Inference-Server",
+    "isPublic": "yes. An unauthenticated GET to api.github.com/repos/ALIUD1/Inference-Server on 2026-10-01 returned HTTP 200 with \"private\": false and \"visibility\": \"public\". Last push 2026-09-27; local main matches origin/main (0 commits ahead or behind), apart from uncommitted edits."
+   }
+  ],
+  "neverPublish": [
+   "Personal email addresses from git commit metadata (both identities).",
+   "Anything from HANDOFF.md's personal sections: the 'how to work with Alex' coaching notes, the record of observed mistakes, resume file paths and edit history, and to-dos about GPA, graduation date, authorship and a collaborator's first name.",
+   "Local machine and network details: the proxy software and its local port, HTTP_PROXY/NO_PROXY settings, process IDs, Windows user paths (C:\\Users\\alexl\\...), ephemeral port ranges.",
+   "The unverified 'after batching' throughput and latency table and the 1.63x figure (see avoid).",
+   "The test image pgiff.webp, a cartoon character still used as the load-test payload. Don't reuse it as a portfolio visual.",
+   "Contents of .claude/settings.local.json and graphify-out/. Neither is tracked in git, and neither was read for this.",
+   "Raw UTF-16 log dumps (e.g. logs/error.txt, logs/reesults_format.txt). They are noisy and include runs from before the bugs were fixed."
+  ],
+  "dates": "2026-06-23 (initial commit) to 2026-09-26 (latest commit, b10d04f); 24 commits. Single-process FastAPI + ResNet18 endpoint in late June; async load tester in July; Redis frontend/worker split 2026-07-24 to 2026-08-12; reader-death fix 2026-08-11; worker-side batching 2026-08-14, reworked to blocking pops + MGET on 2026-09-26.",
+  "notes": "Alex, this describes the committed design at HEAD b10d04f. The two uncommitted edits are trivial: main.py adds an unused `import argparse`, and load_test.py deletes the broken `import worker` / `worker.BATCH_FILL_WAIT_TIME = i` sweep lines, so the committed load_test.py still contains the invalid sweep.\n\nRepo hygiene to fix before linking it from a portfolio:\n- README.md is UTF-16 and contains only the title.\n- The GitHub repo has no description.\n- HANDOFF.md is committed and public, and it holds personal coaching and resume notes. Consider removing it from the repo.\n- __pycache__/*.pyc files are tracked even though .gitignore excludes them.\n- main.py still loads ResNet18 at import time and keeps dead test code in string literals; its `__main__` block calls an undefined test_batching.\n\nKnown design limits worth stating honestly:\n- The frontend awaits each Future with no timeout.\n- A failed image decode, or a batch where every image fails, sends no response, so those requests hang.\n- Payload keys have no TTL.\n- The single shared 'response' list only works with one frontend process.\n- The frontend Redis pool grows to about 1000 connections and never shrinks.\n\nWhat the committed logs show:\n- logs/step4_4_workers.txt (Aug 12, 4 workers, no batching): throughput flat around 31 req/s from 100 to 1000 concurrent, 0 failures through 500, 502s from 700 up (147 at 1,200).\n- logs/step4_1_thread_4_workers.txt (Aug 4, same unbatched setup): no throughput line, but latencies were roughly half. This is the evidence for the roughly 2x day-to-day machine variance.\n- logs/test.txt (batching, invalid sweep): about 23-31 req/s.\n- logs/step5_batching_1_worker.txt and logs/error.txt (1-worker runs): about 11 req/s, collapsing at 700+ concurrent.\n- logs/optimal_batch_test.txt: multi-threaded microbenchmark of per-image time at batch sizes 1 to 32.\n\nThe memory notes list a controlled interleaved rerun as the planned way to get a defensible batching number. Until that run is committed, describe batching as an architectural feature, not a measured speedup.\n\nFor the animation: show 4 worker lanes competing on one FIFO 'jobs' list, a batch tray that closes at 8 items or after 200 ms, and a separate 'response' lane back to one reader that wakes the parked request. Label the Redis ops RPUSH/BLPOP, not LPUSH.\n\ngh is not installed in this environment, so visibility came from the public GitHub REST API. Nothing in the repo was modified."
+ },
+ "socr-braingen": {
+  "name": "SOCR BrainGen: Atlas-Guided Diffusion for Synthetic Brain MRI",
+  "slug": "socr-braingen-conditional-diffusion",
+  "tagline": "Synthetic brain MRI with tumors placed by lobe, generated in ~10 seconds",
+  "summary": "In the University of Michigan SOCR lab, Alex built an AI model that generates realistic synthetic brain MRI scans. The user picks where a tumor appears: which brain lobe, how high in the brain, and how large. He trained the model on a public brain-tumor dataset (BraTS 2023) using the university's supercomputer, added it as a sixth model to the lab's existing web app, and deployed it on Hugging Face GPUs, where one scan takes about 10 seconds. He also built the evaluation harness that scores all of the lab's earlier generator models.",
+  "role": "Three bodies of work are Alex's, and the lab's earlier work is separate.\n\n(1) Research repo ALIUD1/Socr_2026 (Summer2026). Alex is the sole author: 87 commits from 2026-05-28 to 2026-09-08. 79 are authored as \"Alex Liu <liualex639@gmail.com>\"; the other 8 are the initial scaffold commits under a placeholder \"setup <setup@local>\" identity. Together they add about 10.4k lines. The repo covers ICBM452 lobe-atlas registration to BraTS SRI24 space (scripts/02_register_atlas.py), 9-channel preprocessing (03_preprocess.py), the conditional DDIM model and its training (src/model.py, scripts/train.py), evaluation (eval_grid.py, eval_metrics.py, metrics.py), atlas-conforming tumor synthesis (augment_tumor.py, check_atlas_fit.py), CLIP text-conditioning experiments (train_text*.py, test_text_*.py), 3D 64^3 diffusion experiments (train_3d.py, sample_3d.py, bisect_denoise_3d.py) and the website export (export_for_website.py, render_gallery.py, verify_conddiff_port.py, src/conddiff_core.py).\n\n(2) The lab's shared web repo SOCR/Brain-Image-Generator. Alex has 10 of its 37 commits. Achu Shankar made the initial commit (2025-10-21) and built the Next.js/Supabase/NiiVue app plus the GAN backend (20 commits). Simeone Marino made the api.py updates and merged the Vercel CVE PR. Alex's part:\n- model-path commits and README screenshots (May 2026)\n- the README rewrite on origin/main (dbd6a56)\n- branch feat/conddiff-brats-v1, four commits dated 2026-09-25, about 8.2k lines:\n  - 0504232: diffusion model integration. conddiff_core.py, conddiff_inference.py, /conddiff-selftest and /conddiff-cells endpoints, smoke_test_models.py, Dockerfile.gpu, the ParameterControlPanel/GenerationPageClient UI, and CONDDIFF_MODEL.md.\n  - 1c84a4a: the Hugging Face ZeroGPU Space. backend/hf_space/app.py, push_space.py, DEPLOY.md and lib/hfSpace.ts.\n  - 3f89fed: the fix for 8-channel slices.\n  - 27b7913: diagnostics.\n\nThe branch is pushed but NOT merged to main, and no PR is open.\n\n(3) The _socr_eval/ evaluation harness (generate.py, score.py, report.py, figures.py, METHODS.md). It is not under git. Authorship comes from PROJECT_LOG section 3.5 and _paper_handoff/00_BRIEF.md: \"Alex's contribution: (a) the no-reference metrics evaluation of all 8 deployed BrainGen checkpoints ... (b) the conditional 2-D diffusion model\".\n\nHe did NOT build the lab's cGAN, wavelet GAN, 3D GANs, unconditional DDIM_128 or the base website. Local session notes show the code was written with Claude Code assistance, with Alex directing, reviewing and running everything on Great Lakes. Use \"designed / built / trained / deployed\" wording, not \"hand-wrote\".",
+  "stack": [
+   "Python",
+   "PyTorch 2.11 (CUDA 12.8)",
+   "Hugging Face diffusers 0.38 (UNet2DModel, UNet2DConditionModel, DDIMScheduler)",
+   "transformers (frozen CLIP ViT-B/32 text encoder)",
+   "NumPy",
+   "nibabel",
+   "ANTsPy (SyN registration)",
+   "SciPy",
+   "scikit-image",
+   "torchvision Inception-v3 (FID features)",
+   "Gradio 6.28",
+   "Hugging Face ZeroGPU Spaces (spaces, huggingface_hub)",
+   "Next.js 15 / React 19 / TypeScript",
+   "Supabase (storage + Postgres)",
+   "Vercel",
+   "Docker (CUDA Dockerfile.gpu)",
+   "SLURM on U-M Great Lakes HPC"
+  ],
+  "highlights": [
+   {
+    "text": "Added a sixth model, an atlas-guided conditional diffusion model (braingen_CondDiffuser_BraTS_v1), to the lab's existing brain-MRI web app. It took about 8.2k lines across backend inference, API endpoints and UI controls. The controls grey out the 7 of 18 lobe x slice-level combinations the data cannot support, so the site never substitutes a different request without saying so.",
+    "source": "SOCR/Brain-Image-Generator branch feat/conddiff-brats-v1, commits 0504232 + 1c84a4a (git show --stat); backend/inference/conddiff_inference.py _pick_slice; PROJECT_LOG.md section 4.2 (11 of 18 cells)"
+   },
+   {
+    "text": "Deployed the whole backend as one Hugging Face ZeroGPU Gradio Space. The five GANs run on CPU and cost no GPU quota; only the diffusion loop goes to the GPU, through a single function rebinding. One 200-step DDIM image takes about 10 s end to end, of which about 6.3 s is GPU compute.",
+    "source": "backend/hf_space/app.py (_render_on_gpu, cdiff._generate_live rebinding); backend/hf_space/DEPLOY.md section 3 row 2.9 ('cold 11.0 s end to end, gpu_seconds ~6.3'); local session notes record ~9.5 s cold/warm on the Space and 10.3 s through the website path"
+   },
+   {
+    "text": "The 85,261,185-parameter U-Net loads with strict=True plus a parameter-count check. The lab's GAN loaders use strict=False, which silently turns a mismatched checkpoint into random weights that still look brain-shaped.",
+    "source": "backend/inference/conddiff_inference.py _get_model(); backend/hf_space/DEPLOY.md section 5 step 4 and section 8; Summer2026 PROJECT_LOG.md section 3.1"
+   },
+   {
+    "text": "Wrote an atlas-conforming tumor generator. It seeds the lesion inside the chosen lobe (weighted by atlas probability) and sizes it relative to that lobe's area: small 5-12%, moderate 15-35%, large 40-60%. A smoothed random field gives an organic outline, split into edema plus an enhancing core. The math lives in one file kept byte-identical in the research and web repos, and a check against the original SciPy version matched on all 78 test cases (Dice 1.0).",
+    "source": "backend/inference/conddiff_core.py (synth_mask, AREA_FRAC_BY_SIZE, CORE_FRAC) == Summer2026/src/conddiff_core.py; Summer2026/scripts/verify_conddiff_port.py; PROJECT_LOG.md section 4.2"
+   },
+   {
+    "text": "Built the research pipeline end to end:\n- registered the ICBM452 6-lobe probability atlas into BraTS SRI24 space once, with ANTs SyN, after fixing an orientation bug by converting Analyze to NIfTI with nibabel first\n- preprocessed about 1,250 BraTS 2023 patients into 163,974 slices of 9 channels each (FLAIR, T1, tumor mask, 6 lobe maps)\n- trained on U-M Great Lakes GPUs with mixed precision and EMA weights",
+    "source": "Summer2026 scripts/02_register_atlas.py, scripts/03_preprocess.py, scripts/train.py; PAPER_MATERIALS.md sections 4-5 (public repo ALIUD1/Socr_2026)"
+   },
+   {
+    "text": "Built an evaluation harness that scores all 8 lab generator checkpoints. He recovered the checkpoints from the deployed Docker image tarball and loaded them strictly. Every image is resampled to a common 128x128 grid before scoring. Metrics:\n- no-reference metrics: background SNR and leakage, sharpness, lesion contrast, diversity\n- 1,000-resample bootstrap confidence intervals\n- a model-to-model FID matrix",
+    "source": "_socr_eval/METHODS.md, score.py, generate.py, results/metrics.csv, results/fid_matrix.csv"
+   },
+   {
+    "text": "Explored extensions beyond the main model: CLIP text conditioning through cross-attention with condition dropout, and a 3D (64^3) diffusion pipeline.",
+    "source": "ALIUD1/Socr_2026 commits 687f3d8 (text-conditioned diffusion: cross-attention U-Net + CLIP + CFG), ef9ccb3 (full 3D diffusion pipeline); src/model.py build_text_model"
+   },
+   {
+    "text": "Caught shipping bugs on the first real GPU run and in review:\n- the exporter writes 8-channel slices but the loader accepted only 9\n- the manifest file name differed between exporter and server (csv vs json)\n- a safetensors version conflict would have broken every redeploy",
+    "source": "commit 3f89fed; backend/hf_space/DEPLOY.md section 3 row 7.1; Summer2026 PROJECT_LOG.md section 4.4"
+   }
+  ],
+  "avoid": [
+   "Any absolute 'FID on BraTS'. FID_ref uses ONE local BraTS T1ce subject against each model's T1 channel, so it can only rank models. Do not quote FID_ref values or the FID matrix numbers as quality scores.",
+   "The FID/SSIM/PSNR table in the lab README (e.g. Diffuser FID 0.91, PSNR 29.8). Those numbers are the lab's prior manuscript work, not Alex's.",
+   "That the diffusion model is live on the public website (brain-image-generator.vercel.app or braingen.statisticalcomputing.org). It lives on the unmerged branch feat/conddiff-brats-v1 and was tested on a Vercel preview. Production main does not include it. Say it runs on a public Hugging Face Space and is integrated into the site on a feature branch.",
+   "That Alex built the website, the cGAN/wavelet GAN/3D GANs, or the unconditional DDIM_128. Git shows Achu Shankar created the app (Oct 2025) and Simeone Marino maintained api.py. The manuscript's line 'A.L. contributed to the conditional GAN implementations and the web application development' has no support in these repos' git history.",
+   "That the model generates or predicts the segmentation. The tumor mask is drawn algorithmically from the atlas before denoising. It is an INPUT to the model, and the 'Tumor Mask' image shown is that drawn mask.",
+   "That brains are generated from scratch with no patient input. The anatomy comes from a held-out real BraTS patient's T1 slice in a 42-slice conditioning bank. The model synthesizes the FLAIR image and the lesion appearance.",
+   "'Genotype-conditioned'. The model has no genotype input; at most it offers phenotype (location/size) control.",
+   "That synthetic data improves tumor segmentation. Downstream utility is explicitly not validated.",
+   "That 3D diffusion works. The 64^3 runs are coherent, but output floors around 0.2: no tissue contrast and no tumor.",
+   "That text conditioning is a finished feature. The text_rich status is unknown, and the dual-dropout run failed.",
+   "'~1 s per image'. That figure is cluster GPU compute only (PROJECT_LOG). The deployed end-to-end figure is about 10 s (9.5-11.0 s measured).",
+   "Naming a specific GPU model for the Space. HF reports the hardware as 'zero-a10g', while DEPLOY.md cites the RTX Pro 6000 Blackwell duration factor. Just say 'Hugging Face ZeroGPU'.",
+   "That it runs on the free plan. The free-plan design was blocked (HTTP 402) and Alex bought HF PRO.",
+   "PSNR/SSIM for the lab's 8 checkpoints. These are undefined because the checkpoints are unconditional or class-conditional.",
+   "Professor name: the task says 'Daniel Marino', but git commits and the manuscript say 'Simeone Marino'. Only PROJECT_LOG says 'Daniel Marino'. Confirm before publishing."
+  ],
+  "flow": [
+   "1. CHOOSE: on the website's parameter panel the user picks Tumor (With/Without), Lobe (Frontal, Parietal, Temporal, Occipital, Cerebellum, Insula), Slice location (Inferior/Middle/Superior) and Tumor size (Small/Moderate/Large). On page load the panel asks the Space's conddiff_cells endpoint which lobe x level cells exist (11 of 18) and greys out the rest.",
+   "2. REQUEST: the Vercel route /api/generate calls lib/hfSpace.ts. That POSTs {space}/gradio_api/call/generate and gets back an event_id, then GETs the server-sent-event stream until 'event: complete'. The lab's HF token is attached server-side.",
+   "3. SEED + SPEC: on the Space, params_to_spec validates the four choices. One random integer seed drives both the mask randomness (numpy) and the starting noise (torch), so every image can be regenerated.",
+   "4. PICK ANATOMY: _pick_slice picks a slice at the requested level from the conditioning bank (42 axial slices from 22 held-out BraTS 2023 patients). The chosen lobe must be clearly present: atlas probability > 0.4 over at least 500 px. Output is a 9 x 256 x 256 stack: [FLAIR slot (zeros), T1, mask, 6 lobe probability maps].",
+   "5. DRAW THE TUMOR: synth_mask picks a seed pixel inside the lobe, weighted by atlas probability. It sets the target area to a fraction of the lobe's area (small 5-12%, moderate 15-35%, large 40-60%) and scores every pixel as atlas x Gaussian compactness x smoothed random noise. The top-N pixels become the lesion: label 2 is edema, and label 3 is the enhancing core (30% of the lesion). 'Without Tumor' sets the mask to all zeros.",
+   "6. BUILD CONDITIONING: build_cond assembles the 8 conditioning channels [T1, tumor mask, 6 lobe maps] as a 1 x 8 x 256 x 256 tensor. It stays constant for the whole loop.",
+   "7. START FROM NOISE: x = pure Gaussian noise, 1 x 1 x 256 x 256 (the FLAIR channel), seeded from step 3.",
+   "8. DENOISE x200 on the GPU, inside a @spaces.GPU ZeroGPU worker. For t = 995, 990, ..., 5, 0:\n- concatenate [x, conditioning] into a 1 x 9 x 256 x 256 input\n- the 85.3M-parameter U-Net predicts the noise in x\n- the DDIM scheduler removes a calibrated share of it\nThe image sharpens step by step from static into a brain, with a bright lesion where the mask is.",
+   "9. DECODE: map x from [-1, 1] back to [0, 1] and clip, giving the final 256 x 256 synthetic FLAIR slice.",
+   "10. ENCODE: to_png_bytes writes the FLAIR PNG in the paper's orientation with fixed 0-1 intensity scaling. If there is a tumor it also writes the mask PNG: edema mid-grey, core white.",
+   "11. PUBLISH: the PNGs upload to Supabase storage. The provenance record holds seed, 200 DDIM steps, device=cuda, gpu_seconds (about 6.3 s), source bank slice, and lesion size and coverage.",
+   "12. VIEW: the website shows the 'FLAIR' and 'Tumor Mask' tabs. About 10 s pass from click to image."
+  ],
+  "links": [
+   {
+    "label": "SOCR Brain Gen web app (lab's live site, serves the GAN models on main)",
+    "url": "https://brain-image-generator.vercel.app",
+    "isPublic": "yes. HTTP 200 after a 307 redirect to /dashboard/playground, page title 'SOCR Brain Gen' (curl, 2026-10-01). Note: Alex's diffusion model is not on production main."
+   },
+   {
+    "label": "BrainGen custom domain (GitHub repo homepage, linked from SOCR GAIM)",
+    "url": "https://braingen.statisticalcomputing.org/",
+    "isPublic": "unknown. curl returned HTTP 403, probably bot protection. It is the repo's homepage field and is linked from socr.umich.edu/GAIM."
+   },
+   {
+    "label": "SOCR GAIM landing page (links BrainGen webapp)",
+    "url": "https://socr.umich.edu/GAIM/",
+    "isPublic": "yes. HTTP 200, title 'SOCR GAIM', contains a 'BrainGen Webapp' link."
+   },
+   {
+    "label": "Hugging Face Space: braingen-backend (diffusion on ZeroGPU + 5 GANs)",
+    "url": "https://huggingface.co/spaces/ALIUD1/braingen-backend",
+    "isPublic": "yes. HF API returns private:false, runtime stage RUNNING on zero-a10g (2026-10-01). Its test form spends the visitor's own GPU quota."
+   },
+   {
+    "label": "Lab repo, Alex's diffusion + HF Space branch",
+    "url": "https://github.com/SOCR/Brain-Image-Generator/tree/feat/conddiff-brats-v1",
+    "isPublic": "yes. GitHub API shows SOCR/Brain-Image-Generator private:false, and the branch is listed. Not merged, no PR."
+   },
+   {
+    "label": "Research code repo (conditional diffusion pipeline)",
+    "url": "https://github.com/ALIUD1/Socr_2026",
+    "isPublic": "yes, technically: GitHub API private:false. But it contains the unpublished manuscript draft (paper_with_edits.tex with the co-author list, paper_insertions.tex, PAPER_MATERIALS.md). Get lab OK before linking from a portfolio."
+   }
+  ],
+  "neverPublish": [
+   "All secrets: HF tokens (upload, Space-read, Vercel-read), the Supabase anon/service_role keys, and any value from .env, .env.local or backend/.env. None were copied here.",
+   "The Supabase project URL/ID and the private HF model repo ALIUD1/braingen-assets (it returns 401). It holds model weights and real BraTS patient T1 slices covered by a data-use agreement, plus bank patient IDs, filenames and slice indices.",
+   "Unpublished manuscript details:\n- the paper titles ('Breaking the Informational Floor...', the Data Descriptor title)\n- the author list and Author Contributions text\n- the informational-floor loss numbers (0.006 -> 0.0042)\n- paper metrics (PSNR 17.09 +/- 2.84, SSIM 0.402 +/- 0.127, bgSNR 66.6 +/- 35.5)\n- epochs and job IDs\n- the genotype/phenotype paper direction",
+   "Text-conditioning ablation results (laterality deltas, z-scores) and 3D failure diagnostics. These are unpublished research findings.",
+   "_socr_eval result numbers (FID_ref values, FID matrix, per-model bgSNR/LapVar/etc.) and METHODS.md draft text. They are part of the unsubmitted lab manuscript.",
+   "Advisor correspondence: Prof. Dinov's email in _paper_handoff/01, the drafted replies and update e-mails, and the HF PRO reimbursement discussion.",
+   "Lab-mates' unpublished work: Jiayi's 128^3 3D work, details of Achu Shankar's Data Descriptor, and the lab README's metric table.",
+   "Great Lakes internals: Turbo paths (/nfs/turbo/umms-dinov/...), SLURM account name, partition names, job IDs, login-node details.",
+   "Known security weaknesses from DEPLOY.md section 6: the open 'generate' endpoint can write into the lab's Supabase under any user_id, and the playground can drain the GPU quota. Do not advertise the Space's API endpoint."
+  ],
+  "dates": "Lab app predates Alex (Achu Shankar initial commit 2025-10-21). Alex: research repo 2026-05-28 to 2026-09-08; README/model-path commits to the lab repo 2026-05-24 to 2026-05-28; eval harness 2026-08-28 to 2026-09-02; website integration + HF ZeroGPU Space committed 2026-09-25; Space verified end to end with real Supabase 2026-09-29. Still in progress: merge to production main, manuscript sign-off.",
+  "notes": "Everything here comes from reading files, git logs and public APIs; nothing was edited.\n\nTiming: DEPLOY.md (in the repo) records cold 11.0 s end to end with gpu_seconds ~6.3. Local session notes record ~9.5 s cold and warm on the Space and 10.3 s through the website's playground path. \"About 10 s for 200 DDIM steps\" covers all three.\n\nParameter count: 85,261,185 is confirmed in DEPLOY.md section 8 and PROJECT_LOG section 3.1. The code enforces 85.3M +/- 1% at load.\n\nThings Alex should know before publishing:\n(a) The public repo ALIUD1/Socr_2026 already exposes the unpublished manuscript draft, including the co-author list and red-text author contributions. He may want to check with the lab or make it private before linking it.\n(b) The diffusion feature is not in production yet. The branch is unmerged, and the Vercel preview needed HF_SPACE_URL set.\n(c) Professor name mismatch: the task and PROJECT_LOG say \"Daniel Marino\", while git and the manuscript say \"Simeone Marino\".\n(d) The ZeroGPU free-plan design ended up needing HF PRO. Alex paid personally and planned to seek reimbursement.\n\nKey files:\n- C:/Users/alexl/code/Research/socr/Brain-Image-Generator/backend/hf_space/app.py\n- C:/Users/alexl/code/Research/socr/Brain-Image-Generator/backend/hf_space/DEPLOY.md\n- C:/Users/alexl/code/Research/socr/Brain-Image-Generator/backend/inference/conddiff_core.py\n- C:/Users/alexl/code/Research/socr/Brain-Image-Generator/backend/inference/conddiff_inference.py\n- C:/Users/alexl/code/Research/socr/Brain-Image-Generator/lib/hfSpace.ts\n- C:/Users/alexl/code/Research/socr/Summer2026/PROJECT_LOG.md\n- C:/Users/alexl/code/Research/socr/Summer2026/PAPER_MATERIALS.md\n- C:/Users/alexl/code/Research/socr/_socr_eval/METHODS.md\n- C:/Users/alexl/code/Research/socr/_paper_handoff/00_BRIEF.md\n\nGood visuals for the portfolio (check that each shows no patient identifiers):\n- Summer2026/noise_schedule.png and forward_noise.png (the forward-noise animation)\n- atlas_on_patient.png\n- check_frontal.png, check_occipital.png and check_temporal.png (atlas-guided tumors)\n- public/screenshots/*.png in the lab repo"
+ },
+ "claws": {
+  "name": "CLAWS NASA SUITS Telemetry: EVA Dashboard (TTTDTT) and INFRA Onboarding Sim",
+  "slug": "claws-nasa-suits-telemetry",
+  "tagline": "Live spacesuit telemetry dashboard and onboarding sim for a NASA SUITS team",
+  "summary": "CLAWS is a University of Michigan student team that competes in NASA SUITS (Spacesuit User Interface Technologies for Students), a challenge to design displays for astronauts on spacewalks. Alex built the team's main EVA telemetry screen. It is a React page that shows two astronauts' life-support readings live and raises alerts when a value leaves its safe range or changes too quickly. He also built and published a mock NASA telemetry server, with a Unity client and tests, so new INFRA members can learn the whole data path on their own laptops.",
+  "role": "TTTDTT (team repo stilettocode/TTTDTT, 56 commits in total): Alex (ALIUD1) has 9 commits, 8 of them non-merge, with about +1948/-1110 lines. (1) He built the EVA telemetry page in 4 commits between 2026-04-08 and 2026-04-21 (0e552b9, e040481, 9b86001, a78db7c), all in frontend/src/pages/Eva1.tsx. Git blame credits 699 of its 762 current lines to ALIUD1. The page has a client-side alert engine: a RANGES table of 22 suit fields with min, max and nominal values, a RATE_LIMITS table of 10 per-second change limits, checkRanges(), id-based dedupe and a danger-first sort. It also has the EVA-1/EVA-2 astronaut cards with IMU position and heading, the DCU/UIA switch panels and custom SVG icons. On 2026-05-17 a teammate copied the page into frontend/src/pages/Eva.tsx (commit 2ebc79f), and that file is now the live /eva route. Copy-aware blame (git blame -C -C) credits 705 of its 753 lines to ALIUD1. Teammates later added server metric-warning alerts on top of his local alerts. (2) On 2026-09-03 he did repo hygiene on master, all pushed to origin/master: Git LFS rules for Unity and media assets (2e1eb0f), a 143-line Node .gitignore plus the repo's first GitHub Actions workflow (80cf901), and a fix to `npm --prefix frontend ci` (f7e65fd). (3) On 2026-03-15 he wrote a hardware-in-the-loop UDP test script (backend/testing/test.py) plus rover-command helpers (dce6314). That commit exists only on branch origin/frontend-engineers and was never merged. Teammates wrote the Flask/Socket.IO backend, udp_client.py, SocketContext.tsx, the Unity Socket.IO script, the map and rover pages, and the voice/AI work. INFRA onboarding (ALIUD1/Infra-2026-2027-onboarding): Alex is the only committer, with 6 commits on 2026-09-24. The repo has mock_tss.py (270 lines, FastAPI), panel.py (110, CLI), TssClient.cs (229, Unity C#), test_mock_tss.py (68, pytest) and a mission-style README.",
+  "stack": [
+   "React 19 + TypeScript (Vite)",
+   "socket.io-client",
+   "Python Flask + Flask-SocketIO (team backend)",
+   "UDP binary protocol via Python struct (NASA TSS)",
+   "FastAPI + Pydantic v2 (onboarding mock)",
+   "WebSockets (FastAPI /ws, Python websockets, C# ClientWebSocket)",
+   "Unity C# (UnityWebRequest, JsonUtility)",
+   "pytest + FastAPI TestClient",
+   "GitHub Actions",
+   "Git LFS"
+  ],
+  "highlights": [
+   {
+    "text": "Built the team's EVA telemetry screen. ALIUD1 authored 699 of the 762 lines in Eva1.tsx, across 4 commits made 2026-04-08 to 2026-04-21.",
+    "source": "C:/Users/alexl/CLAWS/TTTDTT frontend/src/pages/Eva1.tsx; git blame HEAD; commits 0e552b9, e040481, 9b86001, a78db7c"
+   },
+   {
+    "text": "His page is what runs on the live /eva route. A teammate copied it into Eva.tsx, and copy-aware blame credits 705 of its 753 lines to ALIUD1.",
+    "source": "git blame -C -C HEAD -- frontend/src/pages/Eva.tsx; commit 2ebc79f; frontend/src/App.tsx routes /eva -> pages/Eva"
+   },
+   {
+    "text": "Wrote a client-side caution and warning engine. It checks 22 suit fields against min, max and nominal values, plus 10 per-second rate-of-change limits, for two astronauts on every telemetry update. Alerts are deduped by id, sorted danger-first, and color the matching gauge bars.",
+    "source": "frontend/src/pages/Eva1.tsx lines 8-110 (RANGES, RATE_LIMITS, checkRanges) and 496-525 (useEffect diff vs previous sample), blamed to a78db7c"
+   },
+   {
+    "text": "Built a mock of NASA's Telemetry Stream Server. It simulates suit O2, suit pressure, battery, heart rate, the UIA/DCU switches and the astronaut walking between points of interest, and streams the state at 5 Hz over a WebSocket. It ships with a CLI control panel and a Unity C# client.",
+    "source": "github.com/ALIUD1/Infra-2026-2027-onboarding: mock_tss.py, panel.py, TssClient.cs (commit 49efbdb)"
+   },
+   {
+    "text": "Wrote a pytest that runs the NASA SUITS egress procedure (Appendix A) against the simulator in fast-forward. It steps simulated time by hand instead of waiting in real time.",
+    "source": "INFRA/onboarding/test_mock_tss.py"
+   },
+   {
+    "text": "New members have started using the onboarding repo. Besides main, the public repo has 4 member branches.",
+    "source": "git ls-remote https://github.com/ALIUD1/Infra-2026-2027-onboarding.git (2026-10-01)"
+   },
+   {
+    "text": "Added Git LFS rules for Unity and media assets, a Node .gitignore and the repo's first GitHub Actions workflow to the team repo.",
+    "source": "TTTDTT commits 2e1eb0f, 80cf901, f7e65fd on origin/master (2026-09-03)"
+   }
+  ],
+  "avoid": [
+   "Do not say Alex built the Flask/Socket.IO backend, udp_client.py, SocketContext.tsx, the Unity SocketIOTelemetry.cs, the map or rover pages, or the Corvus voice/AI features. Blame credits those to teammates.",
+   "Do not claim CI runs tests. The test step is `echo \"we did it\"`. The workflow also uses the misspelled trigger key `branchs` and targets `main`, but the repo's default branch is `master`, so it may never have run. GitHub Actions run history was not checked.",
+   "Do not claim assets were migrated to LFS. Only the rules were added. HEAD still stores astronaut.png and the other PNGs as plain git blobs, and the working tree shows them as modified.",
+   "Do not present the UDP hardware test (backend/testing/test.py) as part of the product. It exists only on the unmerged branch origin/frontend-engineers.",
+   "Do not describe TTTDTT telemetry as 5 Hz. The backend polls each feed in sequence with 1 s sleeps between feeds and a 2 s pause per cycle, so each feed refreshes about every 6 s. The 5 Hz figure applies only to the onboarding mock.",
+   "Do not call Alex's alerts AI or predictive. His checks are threshold and rate rules. The 'predictive' severity comes from server-relayed metric-warning alerts that a teammate integrated.",
+   "Do not claim the task checklist syncs end to end. The backend stores the `task` event but never re-broadcasts it.",
+   "Do not spell out the CLAWS acronym or guess what TTTDTT stands for. Neither expansion appears in any local doc.",
+   "Do not claim competition results, NASA test-week use, headset deployment, a leadership title (e.g. INFRA lead) or NASA endorsement. None of these is in the repos.",
+   "Do not claim the onboarding tests pass. The README says '3 passed', but they were not run here because this pass was read-only.",
+   "The onboarding code first appeared in a downloaded zip (Downloads/claws-infra-onboarding.zip, 2026-09-22) and was then committed, and the first commit contained '(1)' duplicate copies. Git shows only Alex but not how the code was drafted, so word it as 'built and published' and make sure Alex can explain every line.",
+   "Do not link stilettocode/TTTDTT as a public portfolio link. Anonymous access is refused, so it is private."
+  ],
+  "flow": [
+   "TSS: NASA's Telemetry Stream Server (SUITS-Techteam TSS) runs on a laptop on the team LAN. It listens on UDP port 14141 and holds rover.json, eva.json, ltv.json and ltv.errors.json.",
+   "Poll: the Flask backend (backend/app.py) starts a daemon thread named fetch_loop. For each feed it sends an 8-byte big-endian UDP datagram: [uint32 Unix timestamp][uint32 command]. The commands are 0 for rover, 1 for EVA, 2 for LTV and 3 for LTV errors.",
+   "Reply: TSS answers with a single datagram of JSON. udp_client.py decodes the UTF-8 into a Python dict, with a 2 s socket timeout.",
+   "Broadcast: the backend stamps local_timestamp and calls socketio.emit('eva-telemetry' / 'rover-telemetry' / 'ltv-telemetry' / 'ltv-errors-telemetry') to every client connected on port 5001. It sleeps 1 s between feeds and 2 s per cycle, so each feed arrives about every 6 s.",
+   "Subscribe: there are two listeners. The React SocketProvider uses socket.io-client over a WebSocket, falls back to polling and auto-reconnects. The Unity headset script SocketIOTelemetry.cs subscribes to the same events.",
+   "React state: the SocketProvider puts each feed into React state, and useSocket() hands evaData to the /eva page (Alex's code).",
+   "Check: the EVA page lays the payload over defaults for EVA-1 and EVA-2, then runs checkRanges(). A value below min or above max gives a red 'danger' alert. A value inside the range but off nominal gives a yellow 'warn' alert. A change |new - prev| / dt above the RATE_LIMITS value gives a 'changing fast' alert. The previous sample and its timestamp are kept in useRef.",
+   "Render: alerts are deduped by id and sorted danger-first. Alert ids tint the matching gauge bars, and the alert panel shows the newest 5, merging local alerts with server metric-warnings. The astronaut cards show IMU x, y and heading, and the DCU/UIA switch toggles light up.",
+   "Side channels: other clients emit metric-warning (predictive alerts) or matrix-update (a 2D navigation grid). The backend validates and timestamps them, keeps the last 5 warnings and the latest matrix, and rebroadcasts. A client that connects later is sent the cached copies right away.",
+   "Command path: a client emits set_throttle 10.0. The backend parses it as a float and sends a 12-byte UDP packet [timestamp][1109][float32] to TSS. TSS replies with 4 bytes, where first byte 0x01 means success. The backend sends udp-command-result to the sender and broadcasts set_throttle-result to everyone.",
+   "Onboarding mock: mock_tss.py runs sim_loop 5 times a second. Each step(0.2 s) updates O2 vent/fill, breathing, depress pump, battery and heart rate, checks whether the EVA has started, and moves the astronaut toward the next POI. The full State JSON is then pushed to every /ws WebSocket client.",
+   "Onboarding clients: panel.py 'watch' prints one line per frame. Unity TssClient.cs receives frames on a background thread and parks the newest string. Update() on the main thread parses it with JsonUtility, then the EV marker cube lerps to (x, y) and rotates to the heading.",
+   "Onboarding control: typing 'uia o2_vent open' in panel.py, or clicking a Unity toggle, sends HTTP POST /uia/o2_vent {\"value\": true}. The server flips the switch, and on the next tick the O2 tanks start draining for every client. The pytest calls step() directly to fast-forward the whole egress in under a second."
+  ],
+  "links": [
+   {
+    "label": "INFRA 2026-2027 onboarding (mock TSS + Unity client)",
+    "url": "https://github.com/ALIUD1/Infra-2026-2027-onboarding",
+    "isPublic": "yes: anonymous git ls-remote succeeded on 2026-10-01, and remote main = 37d5012 matches the local copy"
+   },
+   {
+    "label": "TTTDTT team repo (Flask + React + Unity telemetry stack)",
+    "url": "https://github.com/stilettocode/TTTDTT",
+    "isPublic": "no: anonymous git ls-remote asks for credentials, so it is private. The local clone uses it as origin"
+   },
+   {
+    "label": "NASA SUITS Telemetry Stream Server (context, not Alex's)",
+    "url": "https://github.com/SUITS-Techteam/TSS-2025",
+    "isPublic": "yes: anonymous git ls-remote succeeded. The CLAWS INFRA doc names it as the NASA telemetry sim"
+   },
+   {
+    "label": "Teammate's patched TSS fork (context, not Alex's)",
+    "url": "https://github.com/stilettocode/web-telemetry",
+    "isPublic": "no: anonymous ls-remote was refused"
+   }
+  ],
+  "neverPublish": [
+   "The TSS host LAN IP addresses hard-coded in backend/app.py and backend/testing/test.py (172.x.x.x).",
+   "Teammates' names, GitHub handles and @umich.edu emails from git log. Describe their parts by role (teammate, backend dev) unless they agree to be named.",
+   "The member branch names on the onboarding repo. They are new members' names and handles.",
+   "Anything from Downloads/CLAWS 2026-2027 Application (Responses).xlsx, which holds applicant personal data. It was deliberately not opened.",
+   "Verbatim text or screenshots of the internal 'CLAWS 2025-2026 INFRA Doc.pdf'. Paraphrase only.",
+   "Source code or screenshots from the private stilettocode/TTTDTT repo without team permission. Show Alex's own UI only if the team allows it.",
+   "Commit email addresses."
+  ],
+  "dates": "TTTDTT repo history runs 2026-01-07 to 2026-09-03. Alex's commits there run 2026-03-15 to 2026-09-03: the unmerged UDP test on 2026-03-15, the EVA page from 2026-04-08 to 2026-04-21, and LFS/.gitignore/CI on 2026-09-03. A teammate promoted his page to the live /eva route on 2026-05-17. The onboarding repo was built on 2026-09-24 (6 commits, 08:27 to 08:49 EDT). The INFRA doc PDF is dated 'updated jan. 7 2026'.",
+  "notes": "What CLAWS is, with the evidence. (a) The onboarding README is titled 'CLAWS Onboarding: Mock TSS' and refers to NASA's Telemetry Stream Server and 'test week'. (b) Downloads/2026-2027 NASA SUITS Mission Description.pdf defines NASA SUITS as 'Spacesuit User Interface Technologies for Students' and says the TSS supplies UIA switch state. (c) Downloads/CLAWS 2025-2026 INFRA Doc.pdf (a Google Docs export) describes the pipeline: the Flask backend polls the NASA Telemetry Sim, publishes over Socket.IO, and the React frontend and Unity client listen. It names stilettocode/TTTDTT as 'our actual code' and calls that year's interface GEMINI. (d) Every TTTDTT contributor except Alex uses an @umich.edu email, and the INFRA doc mentions 'EECS WSL setups'. The University of Michigan affiliation is therefore well supported, but the CLAWS acronym is never expanded anywhere. TTTDTT layout: backend/ is Flask-SocketIO on 0.0.0.0:5001 plus a binary UDP client to TSS. frontend/ is Vite + React 19 + TS with routes /eva, /rover and /map. Extra/ holds the Unity C# Socket.IO client. SOCKETIO_CLIENTS.md is the event contract for all clients and was written by teammates, not Alex. The frontend hard-codes io('http://localhost:5001'). Paths: C:/Users/alexl/CLAWS/TTTDTT and C:/Users/alexl/CLAWS/INFRA/onboarding. C:/Users/alexl/CLAWS itself is not a git repo and its root README.md is empty. C:/Users/alexl/CLAWS_backup_2026-09-24 is confirmed to be a backup: it holds CLAWS.git (a former .git for the CLAWS folder with one 'first commit') and nested-clone (the onboarding repo at its first commit c779215, same origin), and nothing else of substance. The PDFs were read with throwaway text-extraction scripts in the session scratchpad, and nothing in the repos was modified."
+ },
+ "noverwatch": {
+  "name": "Noverwatch",
+  "slug": "noverwatch",
+  "tagline": "A Windows service that kills Overwatch the moment it launches.",
+  "summary": "Noverwatch is a small background program for Windows that Alex built to keep himself off the video game Overwatch. It runs quietly as a Windows service, and the moment Windows reports that Overwatch has started, it shuts the game down and writes the attempt to a log file. Its log shows it closed the game 8 times during testing in March 2026.",
+  "role": "Solo project. It is not in git, so there are no commits to prove authorship. The evidence is that everything lives under Alex's own Windows profile (C:/Users/alexl/source/repos/Noverwatch), the Visual Studio publish history records 42 publishes between 2026-02-27 and 2026-03-05, and the service 'Noverwatch' is registered on his machine and points at his publish folder. The original work is Noverwatch/Class1.cs, the Detector class, which does all of the following: the WMI process-start watcher, matching the process name against config, recording the PID and timestamp, appending to log.txt, and calling Process.Kill. He also wrote the appsettings.json keys \"Games\" and \"LogPath\", the publish setup (self-contained, single-file, ReadyToRun, win-x64), and installed the result as a Windows service. Program.cs and Worker.cs follow the structure of Microsoft's 'Windows Service using BackgroundService' tutorial: AddWindowsService, the EventLog provider registration, and a while loop with Task.Delay. His folder C:/Users/alexl/source/repos/Blocker, dated 2026-02-25, is an unmodified copy of that tutorial's 'Joke Service'. It shows he worked through the tutorial two days before he started Noverwatch on 2026-02-27.",
+  "stack": [
+   "C#",
+   ".NET 10 (net10.0) Worker Service (Microsoft.Extensions.Hosting BackgroundService)",
+   "Microsoft.Extensions.Hosting.WindowsServices (AddWindowsService)",
+   "System.Management: WMI ManagementEventWatcher on Win32_ProcessStartTrace",
+   "System.Diagnostics.Process (GetProcessById, Kill)",
+   "Microsoft.Extensions.Logging: Console and Windows Event Log providers",
+   "IConfiguration / appsettings.json",
+   "Dependency injection (AddSingleton, AddHostedService)",
+   "Publish: self-contained single-file ReadyToRun win-x64 exe",
+   "Windows Service Control Manager (service 'Noverwatch', LocalSystem, manual start)"
+  ],
+  "highlights": [
+   {
+    "text": "Hypothesis confirmed, with one correction. It does not stop Overwatch from launching. It reacts right after the game process starts and kills it. Detection is event-driven: it subscribes to Windows process-start events with the WMI query \"SELECT * FROM Win32_ProcessStartTrace\" rather than scanning the process list.",
+    "source": "C:/Users/alexl/source/repos/Noverwatch/Noverwatch/Class1.cs lines 88-111 (detecting)"
+   },
+   {
+    "text": "The target game comes from config, not code. specificDetector compares each new process name, ignoring case, against config[\"Games\"], which is set to \"Overwatch.exe\".",
+    "source": "Class1.cs lines 67-80; appsettings.json line 10"
+   },
+   {
+    "text": "On a match it appends '<name> PID: <pid> blocked at <time>' to log.txt, ends the game with Process.Kill(), and logs at Critical level '<name> has been killed(stopped)! at <time>' followed by 'Blocked <n>'.",
+    "source": "Class1.cs lines 40-60 (processInfo), 82-87 (killProcess), 102-108"
+   },
+   {
+    "text": "The action log records 8 kills, each with a different PID. The first was on 2026-03-04 at 10:16:02 PM. The other 7 came on 2026-03-05 between 3:53:08 PM and 3:59:50 PM, about two minutes after the last publish (2026-03-05 20:51:16Z, which is 3:51 PM EST). That fits a final test session.",
+    "source": "C:/Users/alexl/source/repos/Noverwatch/Noverwatch/logs/log.txt (7 lines, 8 entries; line 1 holds two); Properties/PublishProfiles/FolderProfile.pubxml.user"
+   },
+   {
+    "text": "It is hosted as a real Windows service. In code, AddWindowsService sets ServiceName '.NET Noverwatch Service'. On the machine, a service named 'Noverwatch' is installed to run as LocalSystem with manual start, pointing at the publish folder's Noverwatch.exe. It is currently stopped.",
+    "source": "Program.cs lines 8-11; read-only `sc.exe qc Noverwatch` output"
+   },
+   {
+    "text": "It ships as a single self-contained exe (about 89.5 MB) that needs no .NET runtime installed: single-file, ReadyToRun, self-contained, win-x64.",
+    "source": "Noverwatch.csproj line 8-10; Properties/PublishProfiles/FolderProfile.pubxml; bin/Release/net10.0/win-x64/publish/Noverwatch.exe"
+   },
+   {
+    "text": "The publish history shows the iteration: 42 publish attempts (28 succeeded, 14 failed) from 2026-02-27 to 2026-03-05, most of them on 2026-03-04.",
+    "source": "Properties/PublishProfiles/FolderProfile.pubxml.user <History>"
+   },
+   {
+    "text": "Personality: the name is a pun (No + Overwatch). Every heartbeat logs 'The Noverwatch system is online' as a Warning, like a sentry checking in. Kills are logged at Critical level as '...has been killed(stopped)!'. A code comment plans to 'track application tries and stuff in the future like num times treid open'. An empty 'Entertainment' key sits in App.config, which points to plans to block more categories.",
+    "source": "Class1.cs lines 27-34, 62, 86; Worker.cs lines 17-18; App.config line 8"
+   }
+  ],
+  "avoid": [
+   "Saying it 'prevents' or 'blocks' Overwatch from launching. The game process is created first and then killed when the start event arrives.",
+   "Saying it 'polls every 100 seconds for Overwatch'. Detection is event-driven through WMI. The 100,000 ms Task.Delay is a heartbeat loop (Worker.cs line 20).",
+   "Claiming a kill latency in milliseconds. It was never measured.",
+   "Claiming it blocks several games or takes a configurable list. It matches exactly one string, config[\"Games\"].",
+   "Claiming it tracks launch-attempt statistics. The in-memory 'blocked' list is never read, and timesBlocked is a local variable inside each detecting() call, so 'Blocked <n>' counts per watcher and is not a lifetime total.",
+   "Citing C:/Users/alexl/Noverwatch/logs as the runtime log. It holds only a 12-byte file 'qc' containing the word 'Noverwatch'. The real action log is the repo's Noverwatch/logs/log.txt (the LogPath in appsettings.json).",
+   "Saying it runs automatically at boot. The installed service is set to manual start (DEMAND_START) and is currently stopped.",
+   "Citing Windows Event Log counts. The 'Noverwatch' and '.NET Noverwatch Service' event sources are registered, but the Application log only goes back to 2026-06-16, so the March events are gone.",
+   "Saying it is on GitHub or under version control. There is no .git directory and no remote, and gh is not installed, so a remote check was not possible.",
+   "Saying Alex wrote the Windows-service hosting from scratch. Program.cs and Worker.cs follow Microsoft's BackgroundService tutorial (see the Blocker 'Joke Service' copy).",
+   "Saying it uses App.config or ConfigurationManager. That line is commented out (Class1.cs line 70); config is read from appsettings.json through IConfiguration.",
+   "Saying it kills Battle.net or the whole process tree. Process.Kill() is called without entireProcessTree, so only the matching PID is ended.",
+   "Mentioning tests. There are none."
+  ],
+  "flow": [
+   "1. Boot: Windows starts the 'Noverwatch' service (or the developer runs it). Host.CreateApplicationBuilder builds the host, AddWindowsService hooks it into the Service Control Manager, and Detector and Worker are registered through DI.",
+   "2. Worker loop, first pass: it logs 'Worker running at: <time>' at Information level, then calls detector.detecting().",
+   "3. Arm the tripwire: detecting() creates a ManagementEventWatcher for 'SELECT * FROM Win32_ProcessStartTrace', attaches an EventArrived handler, and calls Start(). This returns immediately, and Windows will now push an event for every new process.",
+   "4. Heartbeat: the worker logs the Warning 'The Noverwatch system is online', then sleeps 100 seconds (Task.Delay(100000)). After that it repeats steps 2-4, and each pass adds another watcher.",
+   "5. Launch attempt: the user clicks Play and Windows creates Overwatch.exe, for example PID 12400.",
+   "6. Detected: WMI fires Win32_ProcessStartTrace and the handler reads ProcessName 'Overwatch.exe' and ProcessID 12400. Every process name, not only Overwatch, is printed to the console.",
+   "7. Match check: specificDetector compares 'Overwatch.exe' to config[\"Games\"] ('Overwatch.exe'), ignoring case. Any other process (chrome.exe, etc.) is ignored and the watcher keeps listening.",
+   "8. Record: processInfo(12400) looks up the process, adds {Name, pid, DateTime.Now} to an in-memory list, creates the LogPath folder if missing, and appends 'Overwatch PID: 12400 blocked at 3/5/2026 3:53:08 PM' to logs/log.txt.",
+   "9. Terminate: killProcess(12400) calls Process.Kill(), the game window disappears, and the Critical log line 'Overwatch has been killed(stopped)! at <time>' is written.",
+   "10. Tally: timesBlocked++ is followed by the Critical log 'Blocked 1'. The watcher goes back to listening for the next launch."
+  ],
+  "links": [],
+  "neverPublish": [
+   "Absolute local paths that include the Windows username (C:\\Users\\alexl\\...), as found in appsettings.json LogPath, App.config, the service BINARY_PATH_NAME, and the csproj.user profile path",
+   "The UserSecretsId GUID in Noverwatch.csproj (not a secret, but a machine-specific identifier and not useful to share)",
+   "The published Noverwatch.exe binary. It kills processes and was installed to run as LocalSystem; share source and screenshots instead.",
+   "Raw log.txt with real local timestamps, if Alex prefers not to show his personal gaming times. Rounded dates are fine."
+  ],
+  "dates": "The tutorial copy (Blocker) is dated 2026-02-25. The Noverwatch project was created on 2026-02-27, which is also the first publish (13:26 EST). Most publishes happened on 2026-03-04 (42 total, 28 succeeded and 14 failed). The first logged kill was 2026-03-04 at 10:16:02 PM. The last source edit (Class1.cs) and the final publish were on 2026-03-05, with the publish at 20:51Z. Seven kills followed on 2026-03-05 between 3:53 and 3:59 PM local time. There has been no activity since.",
+  "notes": "The source is 4 small files: Program.cs (21 lines), Worker.cs (33), Class1.cs (113), and config. Line 1 of log.txt holds two entries with no newline between them, the 3/4 one and the first 3/5 one. A likely explanation, which is inference only: the first run used the now commented-out File.WriteAllText (Class1.cs line 48, which writes no newline), and the code then switched to StreamWriter append with WriteLine. These are real code issues worth knowing about if the code is shown publicly, or worth presenting as 'what I'd fix':\n(a) Watcher leak. detecting() runs on every 100-second loop pass and creates a new ManagementEventWatcher each time without stopping or disposing the old ones. After N passes there are N handlers on every process start, and they race to log and kill the same PID. GetProcessById sits outside the try block in processInfo, so the later handlers probably throw. That is unverified, but it is consistent with the log never showing a PID twice.\n(b) Detection only starts inside `if (logger.IsEnabled(LogLevel.Information))`. If someone raises the log level to Warning, the blocker silently stops working.\n(c) `logger.LogError(ex, \"Error Message\", ex.Message)` has no placeholder for the message it passes.\n(d) Process objects are never disposed.\n(e) Win32_ProcessStartTrace generally needs admin rights; the service runs as LocalSystem, which satisfies that.\nThe ServiceName in code ('.NET Noverwatch Service') differs from the installed service name 'Noverwatch'; both event-log sources are registered. Evidence was gathered only with reads plus sc.exe qc, Get-Service, and Get-WinEvent. Nothing was modified. No secrets were found in the project."
+ }
+}
