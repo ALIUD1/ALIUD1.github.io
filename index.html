@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Alex Liu · Michigan CS</title>
-<meta name="description" content="Alex Liu, Computer Science at the University of Michigan. I build the systems around models: training them on a GPU cluster, serving them through a queue, and checking whether my own numbers hold up.">
+<meta name="description" content="Alex Liu, Computer Science at the University of Michigan. I work on the systems side of ML: training pipelines, model serving, and benchmarking.">
 <meta name="color-scheme" content="light dark">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://aliud1.github.io/">
 <meta property="og:title" content="Alex Liu · Michigan CS">
-<meta property="og:description" content="I build the systems around models: training them on a GPU cluster, serving them through a queue, and checking whether my own numbers hold up.">
+<meta property="og:description" content="I work on the systems side of ML: training pipelines, model serving, and benchmarking.">
 <link rel="canonical" href="https://aliud1.github.io/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <!-- Before first paint: JS on, saved theme, and reduced motion (OS setting or the footer toggle). -->
@@ -99,8 +99,8 @@
 <header class="hero" id="top">
 <nav class="topnav" aria-label="Page"><a href="#work">Work</a> <a href="#experience">Experience</a> <a href="#contact">Contact</a></nav>
 <h1>Alex L<span class="i-anchor">i<svg class="blip-static" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><use href="#blip-default"/><use href="#blip-face"/></svg></span>u</h1>
-<p class="school">Computer Science (B.S.E.) · University of Michigan College of Engineering · Expected&nbsp;May&nbsp;2028<span hidden data-confirm="confirm GPA"> · GPA 3.7/4.0</span></p>
-<p class="lede">I build the systems around models: training them on a GPU cluster, serving them through a queue, and checking whether my own numbers hold up.</p>
+<p class="school">Computer Science (B.S.E.) · University of Michigan College of Engineering · Expected&nbsp;May&nbsp;2028<span> · GPA 3.7/4.0</span></p>
+<p class="lede">I work on the systems side of ML: training pipelines, model serving, and benchmarking.</p>
 <p class="now">Now: BIM/VDC development intern at Miller Industries · Software engineering researcher in U-M's SOCR lab · Infrastructure team for CLAWS, a NASA SUITS student team</p>
 <ul class="contact-row">
   <li><a href="https://github.com/ALIUD1">GitHub</a></li>
@@ -127,7 +127,7 @@
 
 <article class="project" id="inference-server" data-scene="queue" data-accent="signal">
 <div class="story"><header>
-<p class="kicker">Personal project · Jun–Sep 2026</p>
+<p class="kicker">Personal project · Jun–Oct 2026</p>
 <h2>Inference Server</h2>
 <p class="becomes">Blip becomes a request.</p>
 <p class="tagline">An async image-classification server with a Redis queue and batched workers.</p>
@@ -151,15 +151,16 @@
 <li>Dynamic batching: up to 8 jobs or 200 ms, one MGET, one DEL, and one stacked forward pass on CPU under torch.no_grad.</li>
 <li>Found why the reader task died silently: redis-py 8's 5 s default socket timeout killed an unbounded BLPOP after 5 s of idle. Fixed it with a bounded 1 s BLPOP and a done-callback that prints the task's exception.</li>
 <li>Wrote an asyncio + httpx load generator (10 to 1,200 concurrent requests per level, p25 to p95 latency, failures grouped by status code). I raised its read timeout to 30 s after noticing the 5 s default was dropping slow requests from the stats.</li>
-<li>Capped each worker at one PyTorch thread so workers don't fight over cores, and gave the reader its own Redis connection.</li></ul>
+<li>Capped each worker at one PyTorch thread so workers don't fight over cores, and gave the reader its own Redis connection.</li>
+<li>Workers take a Redis host, port, and thread count on the command line and read the password from the environment, so they can run on separate machines from the frontend.</li></ul>
 <div class="fix"><h3>What I'd fix next</h3><ul>
 <li>Give the Future a timeout. An image that fails to decode currently leaves its request waiting forever.</li>
 <li>Put a TTL on payload keys.</li>
 <li>Give each frontend its own response list. One shared list means one frontend process.</li>
 <li>Find the cause of the 502s that show up from 700 concurrent requests up.</li></ul></div>
-<p class="note">No speedup number yet. The same unbatched code measured about 2× apart on two different days, so batching gets a controlled, interleaved rerun before it gets a number.</p>
+<p class="note">No speedup number yet. The one batched run I did was not controlled: a later run of the same configuration came in about 2x lower, and I never verified how many workers were running. It gets an interleaved A/B with fresh workers before it gets a number.</p>
 <ul class="stack"><li>Python</li><li>FastAPI</li><li>asyncio</li><li>Redis</li><li>PyTorch</li><li>ResNet-18</li><li>httpx</li></ul>
-<ul class="links"><li hidden data-confirm="pending repo cleanup"><a href="https://github.com/ALIUD1/Inference-Server">Source on GitHub</a></li></ul>
+<ul class="links"><li><a href="https://github.com/ALIUD1/Inference-Server">Source on GitHub</a></li></ul>
 </div></article>
 
 <article class="project" id="socr-braingen" data-scene="denoise" data-accent="ok">
@@ -195,7 +196,7 @@
 <ul class="links">
 <li><a href="https://github.com/SOCR/Brain-Image-Generator/tree/feat/conddiff-brats-v1">My branch in the lab repo (not yet merged)</a></li>
 <li><a href="https://brain-image-generator.vercel.app">The lab's BrainGen web app (serves the GAN models; mine is on the branch above)</a></li>
-<li hidden data-confirm="pending lab approval"><a href="https://github.com/ALIUD1/Socr_2026">Research code</a></li></ul>
+<li><a href="https://github.com/ALIUD1/Socr_2026">Research code</a></li></ul>
 </div></article>
 
 <article class="project" id="claws" data-scene="telemetry" data-accent="warn">
@@ -292,7 +293,7 @@
 <li>Automated a Python reality-capture pipeline that pulls scan archives from Autodesk Construction Cloud, drives ReCap Pro to index them, and emits production RCS deliverables, replacing a manual per-file workflow.</li>
 <li>Building multi-scan alignment that registers separate field captures of one job site into a single shared coordinate frame.</li></ul></li>
 <li class="row"><h3>SOCR, University of Michigan <span class="role">Software Engineering Researcher · Ann Arbor, MI</span></h3><p class="dates">Dec 2025 – present</p><ul>
-<li>Lead the lab's brain image generation team<span hidden data-confirm="confirm advisor names"> under Profs. Ivo Dinov and Simeone Marino</span>. I built the conditional diffusion model above, its GPU backend, and the evaluation harness.</li>
+<li>Lead the lab's brain image generation team<span> under Profs. Ivo Dinov and Simeone Marino</span>. I built the conditional diffusion model above, its GPU backend, and the evaluation harness.</li>
 <li>Cut the lab's recurring cloud spend by over $230/month administering AWS Lightsail, Supabase, and Vercel.</li></ul></li>
 <li class="row" data-blip="legs"><h3>Field AI <span class="role">Field Application Engineer Intern · Detroit, MI</span></h3><p class="dates">Mar – Jul 2026</p><ul>
 <li>Deployed a Boston Dynamics Spot with an Ouster LiDAR payload to autonomously map an industrial facility as 3D point clouds, running missions end to end and checking coverage against site plans.</li></ul></li>
