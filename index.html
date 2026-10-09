@@ -12,8 +12,8 @@
 <meta property="og:description" content="I work on the systems side of ML: training pipelines, model serving, and benchmarking.">
 <link rel="canonical" href="https://aliud1.github.io/">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<!-- Before first paint: JS on, saved theme, and reduced motion (OS setting or the footer toggle). -->
-<script>(function(d){d.className='js';var m;try{var t=localStorage.theme;if(t==='light'||t==='dark')d.setAttribute('data-theme',t);m=localStorage.motion}catch(e){}if(m==='off'||(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))d.className+=' rm'})(document.documentElement)</script>
+<!-- Before first paint: JS on, saved theme, and reduced motion (OS setting, or the Motion pill in the top nav). -->
+<script>(function(d){d.className='js';var m;try{var t=localStorage.theme;if(t==='light'||t==='dark')d.setAttribute('data-theme',t);m=localStorage.motion}catch(e){}if(m==='off'||(m!=='on'&&window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))d.className+=' rm'})(document.documentElement)</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=JetBrains+Mono:wght@400;700&display=swap">
@@ -21,6 +21,7 @@
 </head>
 <body>
 <!-- Blip sprite. Every symbol: viewBox 0 0 64 64, feet at (32,58). Colors are CSS tokens (with light-theme fallbacks).
+     The same block lives in index.html and about.html; change both.
      Stalks use --ink so they read on both papers; --pupil (fixed dark) is only for marks drawn on Blip's own fills. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
 <symbol id="blip-body" viewBox="0 0 64 64">
@@ -94,13 +95,22 @@
 </symbol>
 </svg>
 
-<a class="skip" href="#work">Skip to projects</a>
+<a class="skip" href="#index">Skip to projects</a>
 
 <header class="hero" id="top">
-<nav class="topnav" aria-label="Page"><a href="#work">Work</a> <a href="#experience">Experience</a> <a href="#contact">Contact</a></nav>
+<nav class="topnav" aria-label="Page"><a href="#index">Work</a> <a href="#experience">Experience</a> <a href="about.html">About</a> <a href="#contact">Contact</a> <div class="prefs"><button type="button" class="theme">Theme: system</button> <button type="button" class="motion">Motion: on</button></div></nav>
 <h1>Alex L<span class="i-anchor">i<svg class="blip-static" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><use href="#blip-default"/><use href="#blip-face"/></svg></span>u</h1>
-<p class="school">Computer Science (B.S.E.) · University of Michigan College of Engineering · Expected&nbsp;May&nbsp;2028<span> · GPA 3.7/4.0</span></p>
 <p class="lede">I work on the systems side of ML: training pipelines, model serving, and benchmarking.</p>
+<!-- INDEX: one row per project, same order and h2 text as the articles below (?check compares them).
+     The costume is a sprite symbol; never use class blip-static here (core.js takes that as Blip's perch). -->
+<nav class="index" id="index" aria-label="Project index"><ol>
+<li data-accent="signal"><a href="#inference-server"><svg class="costume" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#blip-ticket"/><use href="#blip-face"/></svg><b class="t">Inference Server</b><span class="s">Image classification through a Redis queue.</span></a></li>
+<li data-accent="ok"><a href="#socr-braingen"><svg class="costume" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#blip-default"/><use href="#blip-face"/></svg><b class="t">SOCR BrainGen</b><span class="s">Synthetic brain MRI, tumors placed by lobe.</span></a></li>
+<li data-accent="warn"><a href="#claws"><svg class="costume" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#blip-antenna"/><use href="#blip-face"/></svg><b class="t">CLAWS telemetry</b><span class="s">Live spacesuit telemetry for NASA SUITS.</span></a></li>
+<li data-accent="danger"><a href="#noverwatch"><svg class="costume" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#blip-headset"/><use href="#blip-face"/></svg><b class="t">Noverwatch</b><span class="s">A Windows service that kills Overwatch.</span></a></li>
+<li><a href="#mapreduce"><svg class="costume" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#blip-hardhat"/><use href="#blip-face"/></svg><b class="t">Distributed MapReduce</b><span class="s">Manager/worker MapReduce over raw sockets.</span></a></li>
+</ol></nav>
+<p class="school">Computer Science (B.S.E.) · University of Michigan College of Engineering · Expected&nbsp;May&nbsp;2028<span> · GPA 3.7/4.0</span></p>
 <p class="now">Now: BIM/VDC development intern at Miller Industries · Software engineering researcher in U-M's SOCR lab · Infrastructure team for CLAWS, a NASA SUITS student team</p>
 <ul class="contact-row">
   <li><a href="https://github.com/ALIUD1">GitHub</a></li>
@@ -170,7 +180,7 @@
 <p class="becomes">Blip becomes noise.</p>
 <p class="tagline">Synthetic brain MRI with tumors placed by lobe, about 10 seconds per image.</p>
 <p class="summary">In the University of Michigan SOCR lab I built an atlas-guided diffusion model that generates synthetic brain MRI slices. You choose where a tumor appears (which lobe, how high in the brain, how large), and about 10 seconds later you get a synthetic FLAIR image with a lesion there. I trained it on the public BraTS 2023 dataset on the university's Great Lakes cluster, added it as a sixth model to the lab's web app on a feature branch (not merged yet), and deployed its backend on Hugging Face ZeroGPU. I also built the harness that scores the lab's generator models.</p>
-<p class="credit">The lab's web app and its GAN models came before me; they're my labmates' work. Mine are the conditional diffusion model, its GPU backend, and the evaluation harness. <span hidden data-confirm="confirm advisor names">Advisors: Profs. Ivo Dinov and Simeone Marino. </span>A manuscript is in preparation.</p>
+<p class="credit">The lab's web app and its GAN models came before me; they're my labmates' work. Mine are the conditional diffusion model, its GPU backend, and the evaluation harness. <span>Advisors: Profs. Ivo Dinov and Simeone Marino. </span>A manuscript is in preparation.</p>
 </header><div class="figure"></div>
 <ol class="steps">
 <li><p>Pick a lobe and a tumor size. The real panel greys out the 7 of 18 lobe-and-height combinations the data can't support.</p><code>Tumor · Lobe (6) · Slice level (3) · Size (3)</code></li>
@@ -308,8 +318,6 @@
 <p><b>Frameworks</b> PyTorch, Hugging Face Diffusers, NumPy, OpenCV, FastAPI, Flask, React, Next.js, Node.js, Unity</p>
 <p><b>Tools</b> Linux, Git, Docker, Redis, GitHub Actions, AWS, Vercel, Supabase, Slurm/HPC, WebSockets</p></div>
 </section>
-<section id="about" aria-labelledby="about-h"><h2 id="about-h">About</h2>
-<p>I like the unglamorous parts: queues, checkpoints, CI, cloud bills. I audited my own evaluation harness for 27 ways it could be lying to me; five were real, and I fixed them. I've run a Boston Dynamics Spot through LiDAR mapping missions in an industrial facility, built an offline LeetCode kit with tiered hints so flights count as practice, and wrote a Windows service to keep me off Overwatch. You saw how that went.</p></section>
 </main>
 
 <footer id="contact">
@@ -317,7 +325,6 @@
 <p class="email"><a href="mailto:liualex639@gmail.com">liualex639@gmail.com</a> <button type="button" class="copy" hidden>Copy</button></p>
 <ul class="contact-row"><li><a href="https://github.com/ALIUD1">GitHub</a></li><li><a href="https://www.linkedin.com/in/alex-liu-a77403408">LinkedIn</a></li><li hidden data-confirm="add a phone-free resume.pdf"><a href="resume.pdf">Résumé (PDF)</a></li></ul>
 <p class="fine">Hand-built with HTML, CSS, and vanilla JS. No frameworks, no trackers, no build step.</p>
-<div class="prefs"><button type="button" class="theme" hidden>Theme</button> <button type="button" class="motion" hidden>Motion: on</button></div>
 </footer>
 <p id="live" class="sr-only" aria-live="polite"></p>
 <button class="blip" type="button" aria-label="Poke Blip"></button>

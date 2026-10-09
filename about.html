@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alex Liu · About</title>
+<meta name="description" content="Alex Liu, outside of work. I cook, and then I eat it. The rest is mostly physical.">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://aliud1.github.io/about.html">
+<meta property="og:title" content="Alex Liu · About">
+<meta property="og:description" content="Alex Liu, outside of work. I cook, and then I eat it. The rest is mostly physical.">
+<link rel="canonical" href="https://aliud1.github.io/about.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<!-- Before first paint: JS on, saved theme, and reduced motion (OS setting, or the Motion pill in the top nav). -->
+<script>(function(d){d.className='js';var m;try{var t=localStorage.theme;if(t==='light'||t==='dark')d.setAttribute('data-theme',t);m=localStorage.motion}catch(e){}if(m==='off'||(m!=='on'&&window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))d.className+=' rm'})(document.documentElement)</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=JetBrains+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- Blip sprite. Every symbol: viewBox 0 0 64 64, feet at (32,58). Colors are CSS tokens (with light-theme fallbacks).
+     The same block lives in index.html and about.html; change both.
+     Stalks use --ink so they read on both papers; --pupil (fixed dark) is only for marks drawn on Blip's own fills. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<symbol id="blip-body" viewBox="0 0 64 64">
+<path d="M8 50C8 24 19 8 32 8C45 8 56 24 56 50C56 56 52 58 32 58C12 58 8 56 8 50Z" style="fill:var(--blip,#FF5B37)"/>
+<path d="M12 52C16 57 48 57 52 52C50 56 44 58 32 58C20 58 14 56 12 52Z" style="fill:var(--blip-deep,#D9411F)"/>
+<path d="M17 26C19 18 24 14 29 13" style="fill:none;stroke:var(--paper,#F4F0E6);stroke-width:3;stroke-linecap:round;opacity:.55"/>
+<g style="fill:var(--blip-cheek,#FF9A80);opacity:.45"><ellipse cx="19" cy="42" rx="3.5" ry="2"/><ellipse cx="45" cy="42" rx="3.5" ry="2"/></g>
+</symbol>
+<symbol id="blip-default" viewBox="0 0 64 64">
+<use href="#blip-body"/>
+<line x1="32" y1="8" x2="32" y2="2" style="stroke:var(--ink,#16171B);stroke-width:2;stroke-linecap:round"/>
+<circle cx="32" cy="2" r="2.2" style="fill:var(--blip-deep,#D9411F)"/>
+</symbol>
+<symbol id="blip-face" viewBox="0 0 64 64">
+<g style="fill:var(--eye,#FFFFFF)"><ellipse cx="25" cy="33" rx="5" ry="6"/><ellipse cx="39" cy="33" rx="5" ry="6"/></g>
+<g style="fill:var(--pupil,#16171B)"><circle cx="25" cy="33" r="2.6"/><circle cx="39" cy="33" r="2.6"/></g>
+</symbol>
+<!-- Costumes: each is the complete look; core layers the face on top (except flat, which has its own X eyes). -->
+<symbol id="blip-ticket" viewBox="0 0 64 64">
+<rect x="2" y="24" width="60" height="30" rx="6" style="fill:var(--blip,#FF5B37)"/>
+<rect x="2" y="44" width="60" height="6" style="fill:var(--eye,#FFFFFF)"/>
+<g style="fill:var(--paper,#F4F0E6)"><circle cx="2" cy="37" r="3"/><circle cx="62" cy="37" r="3"/></g>
+</symbol>
+<symbol id="blip-pill" viewBox="0 0 64 64">
+<rect x="2" y="30" width="60" height="22" rx="11" style="fill:var(--blip,#FF5B37)"/>
+<path d="M12 35H22" style="fill:none;stroke:var(--paper,#F4F0E6);stroke-width:2.5;stroke-linecap:round;opacity:.55"/>
+</symbol>
+<symbol id="blip-eyes" viewBox="0 0 64 64"></symbol>
+<symbol id="blip-ping" viewBox="0 0 64 64" overflow="visible">
+<g style="fill:none;stroke:var(--signal,#2D5BFF);stroke-width:1.5">
+<circle class="ring" cx="32" cy="45" r="22"/><circle class="ring" cx="32" cy="45" r="22" style="animation-delay:.6s"/>
+</g>
+<use href="#blip-default" transform="translate(16 29) scale(.5)"/>
+</symbol>
+<symbol id="blip-antenna" viewBox="0 0 64 64" overflow="visible">
+<use href="#blip-body"/>
+<line x1="32" y1="8" x2="32" y2="-11.2" style="stroke:var(--ink,#16171B);stroke-width:2;stroke-linecap:round"/>
+<circle class="blink" cx="32" cy="-11.2" r="2.6" style="fill:var(--signal,#2D5BFF);animation-duration:.833s"/>
+</symbol>
+<symbol id="blip-headset" viewBox="0 0 64 64">
+<use href="#blip-default"/>
+<g style="fill:none;stroke:var(--ink,#16171B);stroke-linecap:round">
+<path d="M10 36V30C10 15 20 7 32 7S54 15 54 30V36" style="stroke-width:3"/>
+<path d="M55 42C55 48 51 51 45 51" style="stroke-width:2"/>
+</g>
+<g style="fill:var(--ink,#16171B)"><rect x="5" y="29" width="8" height="14" rx="3"/><rect x="51" y="29" width="8" height="14" rx="3"/><circle cx="44" cy="51" r="2.2"/></g>
+</symbol>
+<symbol id="blip-flat" viewBox="0 0 64 64" overflow="visible">
+<ellipse cx="32" cy="55" rx="30" ry="5" style="fill:var(--blip,#FF5B37)"/>
+<path d="M22 50L28 54M28 50L22 54M36 50L42 54M42 50L36 54" style="fill:none;stroke:var(--pupil,#16171B);stroke-width:1.8;stroke-linecap:round"/>
+<g style="fill:var(--ink-2,#4B4D57)">
+<path class="spin" style="animation-duration:1.6s" d="M14 38L15.2 42.8L20 44L15.2 45.2L14 50L12.8 45.2L8 44L12.8 42.8Z"/>
+<path class="spin" style="animation-duration:1.6s" d="M32 32L33.2 36.8L38 38L33.2 39.2L32 44L30.8 39.2L26 38L30.8 36.8Z"/>
+<path class="spin" style="animation-duration:1.6s" d="M50 38L51.2 42.8L56 44L51.2 45.2L50 50L48.8 45.2L44 44L48.8 42.8Z"/>
+</g>
+</symbol>
+<symbol id="blip-legs" viewBox="0 0 64 64">
+<g style="fill:var(--blip-deep,#D9411F)">
+<rect class="b-leg" x="15" y="50" width="4" height="8" rx="1"/><rect class="b-leg b-leg2" x="23" y="50" width="4" height="8" rx="1"/>
+<rect class="b-leg" x="37" y="50" width="4" height="8" rx="1"/><rect class="b-leg b-leg2" x="45" y="50" width="4" height="8" rx="1"/>
+</g>
+<use href="#blip-default" transform="translate(0 -6)"/>
+</symbol>
+<symbol id="blip-hardhat" viewBox="0 0 64 64">
+<use href="#blip-default"/>
+<g style="stroke:var(--ink,#16171B);stroke-linecap:round;stroke-linejoin:round">
+<path d="M12 23A20 15 0 0 1 52 23Z" style="fill:var(--paper,#F4F0E6);stroke-width:2"/>
+<path d="M32 9V23" style="fill:none;stroke-width:1.5"/>
+<path d="M7 23H57" style="fill:none;stroke-width:2.5"/>
+</g>
+</symbol>
+</svg>
+
+<a class="skip" href="#bio">Skip to the text</a>
+
+<header class="hero about" id="top">
+<nav class="topnav" aria-label="Page"><a href="index.html#index">Work</a> <a href="index.html#experience">Experience</a> <a href="about.html" aria-current="page">About</a> <a href="#contact">Contact</a> <div class="prefs"><button type="button" class="theme">Theme: system</button> <button type="button" class="motion">Motion: on</button></div></nav>
+<h1>H<span class="i-anchor">i<svg class="blip-static" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><use href="#blip-default"/><use href="#blip-face"/></svg></span>, I'm Alex</h1>
+</header>
+
+<main>
+<section id="bio">
+<ul class="photos">
+<li hidden data-confirm="photo: portrait"><figure><img src="img/portrait.jpg" width="1200" height="900" alt=""><figcaption>Me. [Where, roughly when.]</figcaption></figure></li>
+</ul>
+<h2 id="bio-h">Food first, then everything else</h2>
+<p>I cook, and then I eat it. Some of what comes out of the kitchen is worth a photo.<span hidden data-confirm="food line: publish with photo food-1"> Those go below once I pull them off my phone.</span></p>
+<ul class="photos">
+<li hidden data-confirm="photo: food-1"><figure><img src="img/food-1.jpg" width="1200" height="900" alt="" loading="lazy"><figcaption>[Dish]. Mine, before I ate it.</figcaption></figure></li>
+<li hidden data-confirm="photo: food-2"><figure><img src="img/food-2.jpg" width="1200" height="900" alt="" loading="lazy"><figcaption>[Dish], [city, if away from home]. [What it is, or what went wrong.]</figcaption></figure></li>
+</ul>
+<p>I travel when I can, and I eat wherever I end up.</p>
+<ul class="photos">
+<li hidden data-confirm="photo: trip"><figure><img src="img/trip.jpg" width="1200" height="900" alt="" loading="lazy"><figcaption>[Place], [when]. [What I ate there.]</figcaption></figure></li>
+</ul>
+<p>The rest is mostly physical. Tennis and badminton, whichever I can get a court for. Lifting. Snowboarding when there's snow, climbing when there isn't. I used to coach swimming, which is the only one of these I've done for someone else.</p>
+<ul class="photos">
+<li hidden data-confirm="photo: court"><figure><img src="img/court.jpg" width="1200" height="900" alt="" loading="lazy"><figcaption>[Tennis or badminton], [where, when].</figcaption></figure></li>
+<li hidden data-confirm="photo: wall"><figure><img src="img/wall.jpg" width="1200" height="900" alt="" loading="lazy"><figcaption>[Gym or crag], [when]. [Grade, if it's going on the record.]</figcaption></figure></li>
+<li hidden data-confirm="photo: slope"><figure><img src="img/slope.jpg" width="1200" height="900" alt="" loading="lazy"><figcaption>[Mountain], [season]. Board, not skis.</figcaption></figure></li>
+<li hidden data-confirm="photo: pool-deck"><figure><img src="img/pool-deck.jpg" width="1200" height="900" alt="" loading="lazy"><figcaption>Coaching, [pool], [year].</figcaption></figure></li>
+</ul>
+<p>Music is on for most of the above.</p>
+<p>I also play Overwatch. I wrote a Windows service to keep me off it, and it's on the home page as <a href="index.html#noverwatch">Noverwatch</a>. The log shows eight kills, all during testing.</p>
+<h2>At work</h2>
+<p>I like the unglamorous parts: queues, checkpoints, CI, cloud bills. I've run a Boston Dynamics Spot through LiDAR mapping missions in an industrial facility and built an offline LeetCode kit with tiered hints so flights count as practice.</p>
+</section>
+</main>
+
+<footer id="contact">
+<h2>Say h<span class="i-anchor">i<svg class="blip-static" aria-hidden="true" focusable="false" viewBox="0 0 64 64"><use href="#blip-default"/><use href="#blip-face"/></svg></span></h2>
+<p class="email"><a href="mailto:liualex639@gmail.com">liualex639@gmail.com</a> <button type="button" class="copy" hidden>Copy</button></p>
+<ul class="contact-row"><li><a href="https://github.com/ALIUD1">GitHub</a></li><li><a href="https://www.linkedin.com/in/alex-liu-a77403408">LinkedIn</a></li><li hidden data-confirm="add a phone-free resume.pdf"><a href="resume.pdf">Résumé (PDF)</a></li></ul>
+<p class="fine">Hand-built with HTML, CSS, and vanilla JS. No frameworks, no trackers, no build step.</p>
+</footer>
+<p id="live" class="sr-only" aria-live="polite"></p>
+<button class="blip" type="button" aria-label="Poke Blip"></button>
+
+<script src="js/core.js" defer></script>
+</body>
+</html>

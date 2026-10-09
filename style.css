@@ -31,9 +31,10 @@
 @media (min-width:1200px){:root{--gut:48px}}
 /* 2. Base */
 *,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
 [hidden]{display:none!important}
-@media (prefers-reduced-motion:no-preference){html:not(.rm){scroll-behavior:smooth}}
-body{margin:0;overflow-x:clip;background:var(--paper);color:var(--ink);background-image:radial-gradient(var(--grid) 1.2px,transparent 1.3px);background-size:24px 24px;font:400 1.0625rem/1.6 var(--sans);font-variation-settings:"opsz" 14}
+@media (prefers-reduced-motion:no-preference){html.loaded:not(.rm){scroll-behavior:smooth}} /* .loaded is set after the load event, so a fragment URL lands instantly */
+body{margin:0;overflow-x:hidden;overflow-x:clip;background:var(--paper);color:var(--ink);background-image:radial-gradient(var(--grid) 1.2px,transparent 1.3px);background-size:24px 24px;font:400 1.0625rem/1.6 var(--sans);font-variation-settings:"opsz" 14}
 h1,h2,h3{margin:0;font-weight:700;text-wrap:balance}
 p{margin:0 0 1em}
 ul,ol{margin:0;padding:0}
@@ -53,16 +54,18 @@ a:hover{text-decoration-thickness:3px}
 @media (forced-colors:active){.controls button[aria-pressed=true]{border:3px solid Highlight}}
 .topnav a,.contact-row a,.links a,.email a{display:inline-flex;align-items:center;min-height:44px}
 /* 3. Hero */
-.hero{position:relative;display:flex;flex-direction:column;min-height:100svh;max-width:var(--maxw);margin:0 auto;padding:8px var(--gut) 14svh}
-.topnav{display:flex;flex-wrap:wrap;gap:4px 20px;justify-content:flex-end;font:500 .9375rem var(--sans)}
+.hero{position:relative;display:flex;flex-direction:column;min-height:100vh;min-height:100svh;max-width:var(--maxw);margin:0 auto;padding:8px var(--gut) 14vh;padding:8px var(--gut) 14svh}
+.topnav{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;justify-content:flex-end;font:500 .9375rem var(--sans)}
 .topnav a{padding:0 4px}
+.topnav a[aria-current]{text-decoration-thickness:3px}
+.prefs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 0 auto}
+.no-js .prefs{display:none}
 .hero h1{margin:auto 0 .32em -.04em;font-size:clamp(4.5rem,17vw,13rem);font-weight:800;font-stretch:82%;font-variation-settings:"opsz" 96;letter-spacing:-.045em;line-height:.82;white-space:nowrap}
 .school{color:var(--ink-2);font-weight:500;max-width:62ch}
 .lede{font-size:clamp(1.25rem,2.1vw,1.625rem);line-height:1.35;font-weight:500;max-width:36ch}
 .now{font:400 .8125rem/1.6 var(--mono);color:var(--ink-2);max-width:72ch}
 .contact-row{list-style:none;display:flex;flex-wrap:wrap;gap:0 24px}
-.cue{position:absolute;right:var(--gut);bottom:5svh;margin:0;font:400 .75rem var(--mono);color:var(--ink-2);letter-spacing:.04em}
-@media (max-width:959px){.cue{left:0;right:0;text-align:center}}
+.cue{position:absolute;right:var(--gut);bottom:5vh;bottom:5svh;margin:0;font:400 .75rem var(--mono);color:var(--ink-2);letter-spacing:.04em}
 /* meta fade-up (12px max), only with motion on */
 @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .js:not(.rm) .hero :is(.school,.lede,.now,.contact-row){animation:rise .6s var(--ease-out) both}
@@ -76,6 +79,29 @@ a:hover{text-decoration-thickness:3px}
 #contact h2{--tittle-y:.352;--tittle-size:.3;--tittle-dx:.015em}
 .blip-static{position:absolute;pointer-events:none;overflow:visible;left:calc(50% + var(--tittle-dx,0em));top:calc(var(--tittle-y,.19) * 1em);width:max(24px,calc(var(--tittle-size,.22) * 1em));height:auto;aspect-ratio:1;transform:translate(-50%,-78%)}
 .js:not(.rm) .blip-static{visibility:hidden} /* keeps its rect for the live Blip */
+/* 3b. Project index (hero) */
+.index{margin:12px 0 8px}
+.index ol{list-style:none;counter-reset:ix;border-top:1px solid var(--rule)}
+.index li{counter-increment:ix;--accent:var(--signal);border-bottom:1px solid var(--rule)}
+.index li[data-accent=ok]{--accent:var(--ok)}
+.index li[data-accent=warn]{--accent:var(--warn)}
+.index li[data-accent=danger]{--accent:var(--danger)}
+.index a{display:flex;align-items:center;gap:12px;min-height:48px;padding:4px 0;text-decoration:none;color:var(--ink)}
+.index a::before{content:counter(ix,decimal-leading-zero);font:700 .75rem var(--mono);color:var(--ink-2);padding-left:8px;border-left:3px solid var(--accent)}
+.index .costume{width:26px;height:26px;flex:none;overflow:visible}
+.index .t{font-weight:700}
+.index .s{display:none;color:var(--ink-2)}
+.index a:hover .t,.index a:focus-visible .t{text-decoration:underline 2px var(--accent);text-underline-offset:4px}
+@media (min-width:768px){
+  .index{margin:32px 0 12px}
+  .index ol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;border:0}
+  .index li{border:1px solid var(--rule);border-radius:12px;background:var(--paper-2)}
+  .index a{flex-wrap:wrap;align-items:center;gap:8px 10px;padding:14px 16px 16px}
+  .index .costume{margin-left:auto;width:30px;height:30px}
+  .index .t{flex-basis:100%;font-size:1.0625rem;line-height:1.3}
+  .index .s{display:block;flex-basis:100%;font-size:.9375rem;line-height:1.35}
+}
+@media (min-width:960px){.index ol{grid-template-columns:repeat(5,minmax(0,1fr))}}
 /* 4. Projects */
 #work{counter-reset:p}
 .project{counter-increment:p;--accent:var(--signal);max-width:var(--maxw);margin:0 auto;padding:72px var(--gut)}
@@ -85,7 +111,7 @@ a:hover{text-decoration-thickness:3px}
 .kicker{font:400 .75rem/1.4 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2);margin-bottom:16px}
 /* accent on the rule; number stays ink for contrast */
 .kicker::before{content:counter(p,decimal-leading-zero) " · ";color:var(--ink);font-weight:700;padding-left:8px;border-left:3px solid var(--accent)}
-.project h2,#experience h2,#about h2,#contact h2{font-size:clamp(2.5rem,6vw,5rem);font-weight:760;font-stretch:85%;font-variation-settings:"opsz" 96;letter-spacing:-.03em;line-height:.95;margin-bottom:.3em}
+.project h2,#experience h2,#contact h2{font-size:clamp(2.5rem,6vw,5rem);font-weight:760;font-stretch:85%;font-variation-settings:"opsz" 96;letter-spacing:-.03em;line-height:.95;margin-bottom:.3em}
 .becomes{font-size:1.375rem;line-height:1.3;font-weight:520;color:var(--blip-text);margin-bottom:12px}
 .tagline{font-size:1.25rem;line-height:1.4;font-weight:500;max-width:40ch}
 .summary{max-width:62ch}
@@ -97,7 +123,7 @@ a:hover{text-decoration-thickness:3px}
 .steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:16px;top:8px;font:700 .75rem var(--mono);color:var(--ink-2)}
 .steps li p{font-size:1.1875rem;line-height:1.45;font-weight:500;margin:0 0 6px;max-width:44ch}
 .steps code{display:block;color:var(--ink-2);max-width:62ch}
-.js .steps li{min-height:calc(var(--beat,1) * 40svh)}
+.js .steps li{min-height:calc(var(--beat,1) * 28vh);min-height:calc(var(--beat,1) * 28svh)}
 .js:not(.rm) .steps li{color:var(--ink-2)}
 .js:not(.rm) .steps li.on{color:var(--ink);border-left-color:var(--accent)}
 .js:not(.rm) .steps li.on code,.js:not(.rm) .steps li.on::before{color:var(--ink)}
@@ -263,7 +289,7 @@ a:hover{text-decoration-thickness:3px}
 .figure.off *{animation-play-state:paused} /* stage art off screen (core toggles .off) */
 @media (max-width:959px){.blip{width:36px;height:36px}}
 /* 8. Experience, about, contact */
-#experience,#about{max-width:calc(46rem + 2 * var(--gut));margin:0 auto;padding:112px var(--gut) 0}
+#experience{max-width:calc(46rem + 2 * var(--gut));margin:0 auto;padding:112px var(--gut) 0}
 .log{list-style:none;margin:24px 0 48px}
 .log .row{display:grid;grid-template-columns:1fr auto;gap:4px 24px;padding:24px 0;border-top:1px solid var(--rule)}
 .log h3{font-size:1.375rem;font-weight:700;line-height:1.25}
@@ -275,21 +301,30 @@ a:hover{text-decoration-thickness:3px}
 .skills b{display:inline-block;min-width:7.5rem;font:700 .75rem var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2)}
 @media (min-width:480px){.skills p{display:grid;grid-template-columns:7.75rem minmax(0,1fr);column-gap:16px;align-items:baseline}} /* hanging indent */
 @media (max-width:479px){.skills b{display:block}}
-#about p{font-size:1.1875rem;line-height:1.55}
-#contact{min-height:70svh;max-width:var(--maxw);margin:0 auto;padding:112px var(--gut) 48px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+/* about.html */
+.hero.about{min-height:0;padding-bottom:16px}
+.hero.about h1{margin-top:28px;font-size:clamp(3.25rem,13vw,9rem)}
+#bio{max-width:calc(46rem + 2 * var(--gut));margin:0 auto;padding:16px var(--gut) 0}
+#bio h2{font-size:clamp(1.75rem,4vw,2.5rem);font-weight:760;font-stretch:85%;letter-spacing:-.02em;line-height:1.05;margin:40px 0 14px}
+#bio p{font-size:1.1875rem;line-height:1.55;max-width:62ch}
+.photos{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin:8px 0 28px}
+.photos:not(:has(li:not([hidden]))){display:none} /* a grid of slots with no photo yet takes no space */
+.photos figure{margin:0}
+.photos img{width:100%;height:auto;aspect-ratio:4 / 3;object-fit:cover;border-radius:12px;border:1px solid var(--rule);background:var(--paper-2)}
+.photos figcaption{font:400 .8125rem/1.45 var(--mono);color:var(--ink-2);margin-top:6px}
+#contact{min-height:70vh;min-height:70svh;max-width:var(--maxw);margin:0 auto;padding:112px var(--gut) 48px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 #contact h2{font-size:clamp(3rem,9vw,6rem);margin-bottom:.4em}
 .email{font-size:1.25rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 16px}
 #contact .contact-row{justify-content:center}
 .fine{margin:48px 0 0;font:400 .75rem/1.6 var(--mono);color:var(--ink-2);max-width:60ch}
-.prefs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px}
 /* 9. Rail (≥1200px) */
 .rail{display:none}
 .rail ol{list-style:none}
-.rail a{display:flex;align-items:center;gap:7px;min-width:44px;min-height:44px;text-decoration:none;color:var(--ink-2)}
+.rail a{position:relative;display:flex;align-items:center;gap:7px;min-width:44px;min-height:44px;text-decoration:none;color:var(--ink-2)}
 .rail a::before{content:"";width:10px;height:2px;background:var(--rule);transform-origin:left}
 .rail .n{font:700 .75rem var(--mono)}
-.rail .name{font:500 .875rem var(--sans);white-space:nowrap;color:var(--ink);padding:4px 10px;background:var(--paper);border:1px solid var(--rule);border-radius:999px;opacity:0;transform:translateX(-4px);pointer-events:none;transition:opacity .16s,transform .38s var(--ease-pop)}
-.rail a:hover .name,.rail a:focus-visible .name{opacity:1;transform:none}
+.rail .name{font:500 .875rem var(--sans);white-space:nowrap;color:var(--ink);padding:4px 10px;background:var(--paper);border:1px solid var(--rule);border-radius:999px;position:absolute;left:100%;top:50%;margin-left:7px;opacity:0;transform:translate(-4px,-50%);pointer-events:none;transition:opacity .16s,transform .38s var(--ease-pop)}
+.rail a:hover .name,.rail a:focus-visible .name{opacity:1;transform:translate(0,-50%)}
 .rail a[aria-current=true]{color:var(--ink)}
 .rail a[aria-current=true]::before{background:var(--ink);transform:scaleX(1.6)}
 @media (min-width:1200px){
@@ -297,13 +332,14 @@ a:hover{text-decoration-thickness:3px}
 }
 /* 10. Layout: desktop ≥960 */
 @media (min-width:960px){
+  .hero{padding-bottom:48px}
   .story{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);column-gap:48px;align-items:start}
-  .story > header{grid-column:1;grid-row:1;padding-top:10svh}
+  .story > header{grid-column:1;grid-row:1;padding-top:10vh;padding-top:10svh}
   .story > .steps{grid-column:1;grid-row:2}
-  .story > .figure{grid-column:2;grid-row:1/3;position:sticky;top:10svh;height:80svh;align-self:start}
+  .story > .figure{grid-column:2;grid-row:1/3;position:sticky;top:10vh;top:10svh;height:80vh;height:80svh;align-self:start}
   /* pinned until T = N: figure bottom 90svh − read line 50svh; the ol rect is unchanged */
-  .js:not(.rm) .story > .steps{margin-bottom:40svh}
-  .js .steps li{min-height:calc(var(--beat,1) * 44svh)}
+  .js:not(.rm) .story > .steps{margin-bottom:40vh;margin-bottom:40svh}
+  .js .steps li{min-height:calc(var(--beat,1) * 44vh);min-height:calc(var(--beat,1) * 44svh)}
   .no-js .story{grid-template-columns:minmax(0,46rem)}
   /* details: built/explored/fix | note/stack/links */
   .details{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);grid-template-rows:auto auto auto auto 1fr;column-gap:48px}
@@ -320,17 +356,19 @@ a:hover{text-decoration-thickness:3px}
 @media (max-width:959px){
   .project{padding-top:48px;padding-bottom:48px}
   .js .figure{
-    position:sticky;top:0;z-index:2;height:66svh;gap:4px;
+    position:sticky;top:0;z-index:2;height:72vh;height:72svh;gap:4px;
     margin:24px calc(-1 * var(--gut)) 0;padding:6px var(--gut);
     background:var(--paper);border:0;border-bottom:1px solid var(--rule);border-radius:0;
   }
-  /* Blip keeps the stage at T = N until the figure unpins: 72svh − 66svh */
-  .js:not(.rm) .story{padding-bottom:6svh}
+  /* the read line sits 8px under the 72svh figure (readLine in core.js), so 8px keeps the stage pinned through T = N */
+  .js:not(.rm) .story{padding-bottom:8px}
   .stage-wrap{background:var(--paper-2);border:1px solid var(--rule);border-radius:12px}
   .stage{border-radius:12px}
+  .fig-tag{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   /* fixed-height chrome: the stage scale never changes between beats */
-  .panel{max-height:calc(2 * 1.45em);overflow:hidden}
-  .panel:has(>ul,>.term){height:calc(2 * 1.45em + 10px);max-height:none} /* 2 chip rows / 2 log lines */
+  .panel{max-height:calc(1.45em + 10px);overflow:hidden}
+  .panel:has(>.term){height:calc(1.45em + 10px);max-height:none} /* one log line; the sentence lives in .cap */
+  .panel:has(>ul){height:calc(2 * 1.45em + 10px);max-height:none} /* two chip rows: three alert chips wrap at 343px */
   .panel ul{gap:4px 6px}
   .panel .chip{padding:2px 8px}
   /* log tail: newest lines at the bottom; the transparent border hides the clipped line above (overflow clips at the padding box) */
@@ -338,7 +376,17 @@ a:hover{text-decoration-thickness:3px}
   .panel .term > :empty{display:none}
   .panel .term:not(:has(>:nth-child(2):not(:empty))){justify-content:flex-start} /* a lone line sits on top */
   .rm .panel{height:auto;max-height:none}
-  .cap{height:calc(2 * 1.45em + 7px);min-height:0;padding-top:6px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+  .cap{height:calc(3 * 1.35 * .9375rem + 7px);min-height:0;padding-top:6px;font:400 .9375rem/1.35 var(--sans);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+  .cap.tip{font:400 .8125rem/1.45 var(--mono)}
+  /* the camera follows Blip, so the stage is a window: fade its edges so a cut label reads as off-screen, not broken */
+  .stage.cut-l{-webkit-mask-image:linear-gradient(90deg,transparent,#000 16px);mask-image:linear-gradient(90deg,transparent,#000 16px)}
+  .stage.cut-r{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 16px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 16px),transparent)}
+  .stage.cut-l.cut-r{-webkit-mask-image:linear-gradient(90deg,transparent,#000 16px,#000 calc(100% - 16px),transparent);mask-image:linear-gradient(90deg,transparent,#000 16px,#000 calc(100% - 16px),transparent)}
+  /* hero: name at the top, every project above the fold */
+  .hero{min-height:0;padding-bottom:40px}
+  .hero h1{margin-top:12px}
+  .hero .lede{margin-bottom:.5em}
+  .cue{display:none}
   /* one scrollable row of 44px buttons; 6px for the focus ring; height kept while `from` hides all */
   .controls{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;padding:6px;margin:-6px;min-height:56px}
   .controls::-webkit-scrollbar{display:none}
@@ -353,7 +401,7 @@ a:hover{text-decoration-thickness:3px}
 .rm *,.rm *::before,.rm *::after{animation:none!important;transition:none!important}
 .rm .steps li,.no-js .steps li{min-height:auto}
 .rm .figure{position:static}
-@media (min-width:960px){.rm .figure{height:min(80svh,680px)}}
+@media (min-width:960px){.rm .figure{height:min(80vh,680px);height:min(80svh,680px)}}
 .no-js :is(.cue,.rail){display:none}
 /* 13. Print */
 @media print{

@@ -53,7 +53,10 @@
 
   /* ---------- media state + cached measurements ---------- */
   var mqWide = mq('(min-width: 960px)'), mqRail = mq('(min-width: 1200px)'), mqFine = mq('(pointer: fine)');
-  var H = win.innerHeight, W = win.innerWidth, wide = mqWide.matches, railOn = mqRail.matches, readLine = 0.5 * H;
+  // the small viewport height, so cached tops do not move when Safari's toolbar collapses
+  var probe = el('div', { style: 'position:fixed;top:0;left:0;width:0;height:100svh;visibility:hidden;pointer-events:none', 'aria-hidden': 'true' });
+  doc.body.insertBefore(probe, doc.body.firstChild);
+  var H = probe.offsetHeight || win.innerHeight, W = win.innerWidth, wide = mqWide.matches, railOn = mqRail.matches, readLine = 0.5 * H;
   var heroBox = null, footBox = null, h1Box = null, cueBox = null, expBox = null, rowBoxes = [], railTop = 0.5 * H;
   var heroStatic = $('.hero .blip-static'), footStatic = $('#contact .blip-static');
   var rows = $$('#experience .row'), hoverRow = null, focusRow = null, legsUntil = 0;
@@ -120,7 +123,7 @@
   (function buildRail() {
     if (!recs.length) return;
     var nav = doc.createElement('nav');
-    nav.className = 'rail'; nav.setAttribute('aria-label', 'Projects');
+    nav.className = 'rail'; nav.setAttribute('aria-label', 'Project rail');
     var ol = doc.createElement('ol'); nav.appendChild(ol);
     recs.forEach(function (rec, i) {
       var h2 = $('h2', rec.article);
@@ -135,6 +138,15 @@
     // layout is unchanged); Blip's button stays last in the DOM
     doc.body.insertBefore(nav, $('main') || btn);
   })();
+
+  // Hero index: a tap is a jump, not a tour. The browser's own fragment scroll runs right after this
+  // handler, so smooth scrolling is off for that one scroll; hash, history and focus stay native.
+  $$('nav.index a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      root.style.scrollBehavior = 'auto';
+      setTimeout(function () { root.style.scrollBehavior = ''; lastScroll = now(); kick(); }, 0);
+    });
+  });
 
   /* ---------- mounting a scene ---------- */
   function makeApi(rec) {
@@ -234,8 +246,8 @@
   /* ---------- captions + tips ---------- */
   function updateCaption(rec) {
     if (!rec.cap) return;
-    var li = rec.lis[rec.active >= 0 ? rec.active : rec.capIdx || 0], code = li && $('code', li);
-    var s = rec.tipText || rec.capOverride || (code ? code.textContent : '');
+    var li = rec.lis[rec.active >= 0 ? rec.active : rec.capIdx || 0], code = li && $('code', li), p = li && $('p', li);
+    var s = rec.tipText || rec.capOverride || (!wide && p ? p.textContent : code ? code.textContent : '');
     if (s !== rec.capStr) { rec.cap.textContent = s; rec.capStr = s; }
     rec.cap.classList.toggle('tip', !!rec.tipText);
   }
@@ -253,8 +265,10 @@
     function tipOf(t) { var n = t && t.closest ? t.closest('[data-tip]') : null; return n && f.contains(n) ? n : null; }
     f.addEventListener('pointerover', function (e) { if (e.pointerType === 'touch') return; var n = tipOf(e.target); if (n) show(n); });
     f.addEventListener('pointerout', function (e) { if (e.pointerType !== 'touch' && rec.tipText && !tipOf(e.relatedTarget)) hide(); });
-    f.addEventListener('pointerdown', function (e) {
-      if (e.pointerType !== 'touch') return;
+    var lastTouch = -1e9; // iOS fires click only for a touch that did not scroll
+    f.addEventListener('pointerdown', function (e) { if (e.pointerType === 'touch') lastTouch = now(); }, { passive: true });
+    f.addEventListener('click', function (e) {
+      if (now() - lastTouch > 700) return;
       var n = tipOf(e.target); if (!n) return;
       show(n); clearTimeout(timer); timer = setTimeout(hide, 4000);
     });
@@ -263,8 +277,8 @@
   /* ---------- measuring (never inside the frame loop) ---------- */
   function measure() {
     var sy = win.scrollY;
-    H = win.innerHeight; W = win.innerWidth; wide = mqWide.matches; railOn = mqRail.matches;
-    readLine = (wide ? 0.5 : 0.72) * H;
+    H = probe.offsetHeight || win.innerHeight; W = win.innerWidth; wide = mqWide.matches; railOn = mqRail.matches;
+    readLine = wide ? 0.5 * H : 0.72 * H + 8;
     recs.forEach(function (rec) {
       var a = rec.article.getBoundingClientRect(), s = rec.story.getBoundingClientRect();
       rec.aTop = a.top + sy; rec.aBottom = a.bottom + sy; rec.top = s.top + sy; rec.bottom = s.bottom + sy;
@@ -277,7 +291,7 @@
     var railA = railOn && $('.rail a'), ra = railA && railA.getBoundingClientRect(); // fixed: viewport coords
     railTop = ra && ra.height ? ra.top : 0.5 * H;
     B.size = btn.offsetWidth || (wide ? 44 : 36);
-    recs.forEach(function (rec) { if (rec.mounted) measureStage(rec); });
+    recs.forEach(function (rec) { if (rec.mounted) { measureStage(rec); updateCaption(rec); } });
     if (isRM()) recs.forEach(function (rec) { if (rec.mounted) renderPoster(rec); });
   }
   function measureStage(rec) { // svg offset inside .stage-wrap, for api.place
@@ -300,15 +314,16 @@
     var o = rec.out, sp = o && o.span, hasSp = !wide && sp && fin(sp[0]) && fin(sp[1]);
     var x0 = hasSp ? Math.min(sp[0], sp[1]) : 0, x1 = hasSp ? Math.max(sp[0], sp[1]) : 0;
     var aspW = clamp(VB_H * rec.rw / rec.rh, MIN_VB_W, VB_W);
-    var goalW = wide ? VB_W : clamp(Math.max(aspW, x1 - x0), MIN_VB_W, VB_W), k = dt ? 1 - Math.exp(-6 * dt) : 1;
+    var pad = !wide && rec.map && rec.map.s ? 16 / rec.map.s : 0; // the edge fade, in viewBox units
+    var goalW = wide ? VB_W : clamp(Math.max(aspW, x1 - x0 + 2 * pad), MIN_VB_W, VB_W), k = dt ? 1 - Math.exp(-6 * dt) : 1;
     var vbW = !dt || wide || Math.abs(goalW - rec.vbW) < 0.3 ? goalW : rec.vbW + (goalW - rec.vbW) * k, max = VB_W - vbW;
     var want = rec.scene.pan === 'center' ? max / 2 : (o && fin(o.x) ? o.x : VB_W / 2) - vbW / 2;
-    if (hasSp) want = x1 - x0 > vbW ? (x0 + x1 - vbW) / 2 : clamp(want, x1 - vbW, x0);
+    if (hasSp) want = x1 - x0 + 2 * pad > vbW ? (x0 + x1 - vbW) / 2 : clamp(want, x1 - vbW + pad, x0 - pad);
     want = clamp(want, 0, max);
     rec.panX += (want - rec.panX) * k;
     rec.vbW = vbW; rec.panX = clamp(rec.panX, 0, max);
     var str = (Math.round(rec.panX * 10) / 10) + ' 0 ' + (Math.round(vbW * 10) / 10) + ' 560';
-    if (str !== rec.vbStr) { rec.svg.setAttribute('viewBox', str); rec.vbStr = str; rec.vbMoved = true; }
+    if (str !== rec.vbStr) { rec.svg.setAttribute('viewBox', str); rec.vbStr = str; rec.vbMoved = true; rec.svg.classList.toggle('cut-l', rec.panX > 0.5); rec.svg.classList.toggle('cut-r', rec.panX < max - 0.5); }
     return Math.abs(want - rec.panX) > 0.3 || vbW !== goalW;
   }
   function mapRec(rec) {
@@ -380,7 +395,7 @@
     }
     // perch just above link 01 rather than on (24, 0.5·H), which is the middle of the list and would
     // cover links 02/03 and swallow their clicks (§10: Blip never covers text)
-    if (railOn) return { kind: 'rail', ref: 'rail', ox: 0, oy: 0, tx: 24, ty: railTop - 6, k: 1 };
+    if (railOn && railLinks.length) return { kind: 'rail', ref: 'rail', ox: 0, oy: 0, tx: 24, ty: railTop - 6, k: 1 };
     return null;
   }
 
@@ -564,7 +579,7 @@
 
   function setMotion(on) {
     root.classList.toggle('rm', !on);
-    save('motion', on ? 'on' : 'off');
+    save('motion', on === !mq('(prefers-reduced-motion: reduce)').matches ? null : on ? 'on' : 'off'); // only a choice that differs from the OS
     if (motionBtn) motionBtn.textContent = 'Motion: ' + (on ? 'on' : 'off');
     if (raf) { cancelAnimationFrame(raf); raf = 0; }
     B.host = null; btn.classList.add('gone'); btn.classList.remove('shiver'); B.shiver = false;
@@ -582,13 +597,13 @@
     announce(on ? 'Motion on' : 'Reduced motion on');
   }
 
-  /* ---------- footer buttons, console line ---------- */
+  /* ---------- prefs (top nav), copy button, console line ---------- */
   var themeBtn = $('button.theme'), motionBtn = $('button.motion'), copyBtn = $('button.copy');
   if (themeBtn) {
     var themes = ['system', 'light', 'dark'];
     var cur = root.getAttribute('data-theme') || 'system';
     var showTheme = function () { themeBtn.textContent = 'Theme: ' + cur; };
-    showTheme(); themeBtn.hidden = false;
+    showTheme();
     themeBtn.addEventListener('click', function () {
       cur = themes[(themes.indexOf(cur) + 1) % 3];
       if (cur === 'system') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', cur);
@@ -597,7 +612,7 @@
     });
   }
   if (motionBtn) {
-    motionBtn.textContent = 'Motion: ' + (isRM() ? 'off' : 'on'); motionBtn.hidden = false;
+    motionBtn.textContent = 'Motion: ' + (isRM() ? 'off' : 'on');
     motionBtn.addEventListener('click', function () { setMotion(isRM()); });
   }
   if (copyBtn && navigator.clipboard && navigator.clipboard.writeText) {
@@ -662,6 +677,9 @@
 
   /* ---------- boot ---------- */
   measure();
+  // style.css enables smooth scrolling on html.loaded, so a fragment URL lands instantly first
+  if (doc.readyState === 'complete') root.classList.add('loaded');
+  else win.addEventListener('load', function () { setTimeout(function () { root.classList.add('loaded'); }, 0); });
   if ('IntersectionObserver' in win) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
@@ -702,7 +720,7 @@
     var idle = now() - lastScroll;
     if (idle < 5000) { setTimeout(cueCheck, 5020 - idle); return; }
     cueDone = true;
-    if (!B.host || B.host.kind !== 'hero' || !cueBox) return;
+    if (!B.host || B.host.kind !== 'hero' || !cueBox || !cueBox.w) return;
     lookAt(function (sy) { return { x: cueBox.x + cueBox.w / 2, y: cueBox.y + cueBox.h / 2 - sy }; }, 1400);
     B.v.y -= 360; kick();
   }
@@ -728,6 +746,20 @@
         if (ds != null && !isScene(SCENES[ds])) fail('#' + id + ' data-scene="' + ds + '" does not resolve');
         else if (ds && ds !== 'generic' && SCENES[ds].beats && SCENES[ds].beats !== rec.lis.length) fail('#' + id + ' has ' + rec.lis.length + ' steps; scene "' + ds + '" expects ' + SCENES[ds].beats);
       });
+      if (recs.length) { // the hand-written hero index mirrors the articles: same order, same names
+        var ix = $$('nav.index a[href^="#"]');
+        if (ix.length !== recs.length) fail('hero index has ' + ix.length + ' rows for ' + recs.length + ' projects');
+        ix.forEach(function (a, i) {
+          var rec = recs[i]; if (!rec) return;
+          if (a.getAttribute('href') !== '#' + rec.id) fail('index row ' + (i + 1) + ' links ' + a.getAttribute('href') + '; article ' + (i + 1) + ' is #' + rec.id);
+          var t = $('.t', a), h2 = $('h2', rec.article);
+          if (t && h2 && t.textContent.trim() !== h2.textContent.trim()) fail('index row ' + (i + 1) + ' says "' + t.textContent.trim() + '"; the article says "' + h2.textContent.trim() + '"');
+          var acc = a.parentNode.getAttribute('data-accent') || 'signal', aacc = rec.article.getAttribute('data-accent') || 'signal';
+          if (acc !== aacc) fail('index row ' + (i + 1) + ' accent is ' + acc + '; the article is ' + aacc);
+        });
+      }
+      if (!$('.topnav button.theme') || !$('.topnav button.motion')) fail('theme/motion buttons are not in the top nav');
+      $$('.photos li:not([hidden]) img[alt=""]').forEach(function (img) { fail('published photo without alt text: ' + img.getAttribute('src')); });
     });
 
     group('forbidden phrases', function () {
@@ -816,7 +848,7 @@
       });
       if ($$('a[href^="tel:" i]').length) fail('tel: link present');
       $$('a[href]').forEach(function (a) {
-        if (/stilettocode|huggingface\.co\/spaces|Socr_2026/i.test(a.getAttribute('href')) && !a.closest('[hidden]')) fail('visible private link: ' + a.getAttribute('href'));
+        if (/stilettocode|huggingface\.co\/spaces/i.test(a.getAttribute('href')) && !a.closest('[hidden]')) fail('visible private link: ' + a.getAttribute('href'));
       });
     });
 
@@ -825,7 +857,7 @@
       console.info('check: ' + p.length + ' item(s) hidden until Alex confirms:\n' + p.join('\n'));
     });
 
-    function sub(name, fn) { try { fn(); } catch (e) { fail(name + ': ' + (e && e.message)); } }
+    function sub(name, fn) { if (!recs.length) return; try { fn(); } catch (e) { fail(name + ': ' + (e && e.message)); } } // scene subs only where there are scenes
     var BRAIN = win.BRAIN;
     sub('batchSim full', function () {
       var s = SCENES.queue.batchSim();
